@@ -122,7 +122,7 @@ app.get("/api/name", (req, res) => {
 // Route d'enregistrement
 app.post("/api/register", async (req, res) => {
   const { username, email, password, file } = req.body;
-
+  console.log(username, email, password, file);
   try {
     const result = await cloudinary.uploader.upload(file, {
       folder: "user-avatar",
@@ -637,16 +637,13 @@ app.get("/api/myposts", isAuth, async (req, res) => {
 
 app.get("/api/friends", isAuth, async (req, res) => {
   const u = req.session.user;
-  const friends = u.friends;
-
-  const result = await Promise.all(
-    friends.map(async (friend) => {
-      const user = await User.findOne({ _id: friend });
-      return user; // Return the user directly
-    })
-  );
-
-  // Send the array of users as the response
+ 
+  const fr = await User.findOne({ _id: u._id }).populate("friends");
+  const result = fr.friends;
+//console.log(result)
+  if (!result) {
+    return res.status(404).json({ mssg: "User not found" });
+  }
   res.status(200).json(result);
 });
 

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "../styles/Register.css";
 
 export default function Register() {
@@ -11,29 +13,33 @@ export default function Register() {
     const [imgPreview, setImgPreview] = useState(null);
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('username', username);
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('file', image);
+    // Toast notifications
+    const toastSuccess = () =>
+        toast.success("Account created successfully", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            theme: "dark",
+            transition: Bounce,
+        });
+    const toastPending = () =>
+        toast.info("Creating account...", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            theme: "dark",
+            transition: Bounce,
+        });
+    const toastError = () =>
+        toast.error("Something went wrong", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            theme: "dark",
+            transition: Bounce,
+        });
 
-        try {
-            const res = await axios.post('/api/register', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data', // Correct content type for FormData
-                }
-            });
-            if (res.status === 200) {
-                alert(res.data.message);
-                navigate('/login');
-            }
-        } catch (err) {
-            alert(err.response?.data?.message || "Registration failed. Please try again.");
-        }
-    };
-
+    // Image preview
     const previewImage = (file) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -42,10 +48,44 @@ export default function Register() {
         };
     };
 
+    // Handle image upload
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         setImage(file);
         previewImage(file);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!image) {
+            toastError("Please upload a profile picture.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('file', imgPreview);
+
+       // console.log(formData);
+        toastPending();  // Displaying pending toast
+
+        try {
+            const res = await axios.post('/api/register', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            if (res.status === 200) {
+                toastSuccess();
+                setTimeout(() => navigate('/login'), 3000);
+            } else {
+                toastError();
+            }
+        } catch (err) {
+            toastError(err.response?.data?.message || "Registration failed. Please try again.");
+        }
     };
 
     return (
@@ -53,17 +93,29 @@ export default function Register() {
             <form onSubmit={handleSubmit}>
                 <h1>Register</h1>
                 <label>Profile Picture</label>
-                <input type="file" onChange={handleImageUpload} />
-                {imgPreview && <img src={imgPreview} alt="Profile Preview" />}
+                <input type="file" accept="image/*" onChange={handleImageUpload} required />
+                {imgPreview && <img src={imgPreview} alt="Profile Preview" style={{ width: "100px", height: "100px" }} />}
+                
                 <label>Username</label>
-                <input type="text" onChange={(e) => setUsername(e.target.value)} />
+                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+                
                 <label>Email</label>
-                <input type="text" onChange={(e) => setEmail(e.target.value)} />
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                
                 <label>Password</label>
-                <input type="password" onChange={(e) => setPassword(e.target.value)} />
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                
                 <button type="submit">Register</button>
             </form>
-            <Link to="/login"><h4>Already have an account? Login</h4></Link>
+
+            {/* Toast Notifications */}
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                theme="dark"
+                transition={Bounce}
+            />
         </div>
     );
 }

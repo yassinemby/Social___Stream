@@ -4,11 +4,13 @@ import "../styles/friends.css";
 import Nav from "./Nav";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // Import useLocation
 import Lottie from "lottie-react";
 import loadingAnimation from "../assets/loading.json";
+
 export default function Friends() {
   const navigate = useNavigate();
+  const location = useLocation(); // Use useLocation to detect path changes
   const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -21,7 +23,7 @@ export default function Friends() {
         navigate(`/chatting/${id}`);
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error starting chat:", error);
       toast.error("Error starting chat. Please try again.");
     }
   };
@@ -32,11 +34,12 @@ export default function Friends() {
       const response = await axios.get("/api/friends", {
         withCredentials: true,
       });
+      console.log("Fetched friends:", response.data); // Log the fetched friends
       if (response.status === 200) {
         setFriends(response.data);
       }
     } catch (error) {
-      console.log(error);
+      console.error("Failed to load friends:", error);
       toast.error("Failed to load friends. Please refresh the page.");
     } finally {
       setLoading(false);
@@ -44,8 +47,8 @@ export default function Friends() {
   };
 
   useEffect(() => {
-    fetchFriends(); // Load friends on first render
-  }, []); // Empty array [] prevents useEffect from triggering multiple times
+    fetchFriends(); // Fetch friends when component mounts or location changes
+  }, [location]); // Adding location as a dependency
 
   return (
     <>
@@ -54,7 +57,6 @@ export default function Friends() {
       <div className="friends">
         {loading ? (
           <div className="loading-indicator">
-            {" "}
             <Lottie animationData={loadingAnimation} loop />
           </div>
         ) : friends.length === 0 ? (

@@ -70,6 +70,7 @@ margin-bottom: 4vw;
   margin-top: 10px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 10px;
 }
 
@@ -265,3 +266,40 @@ margin-bottom: 4vw;
     width: 100%;
   }
 }
+
+
+/*************  ✨ Codeium Command ⭐  *************/
+@media only screen and (max-width: 600px) {
+  .post {
+    width: 90vw;
+  }
+
+  .postContent {
+    font-size: 14px;
+  }
+
+  .info p {
+    font-size: 14px;
+  }
+
+  .commentUser p {
+    font-size: 14px;
+  }
+
+  .comment p {
+    font-size: 14px;
+  }
+
+  .likes {
+    font-size: 14px;
+  }
+
+  .toggleComments {
+    font-size: 14px;
+  }
+
+  .commentInput button {
+    font-size: 14px;
+  }
+}
+/******  c11454ca-2141-4d71-8867-1d9693111f98  *******/
