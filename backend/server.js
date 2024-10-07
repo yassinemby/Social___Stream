@@ -122,7 +122,7 @@ app.get("/api/name", (req, res) => {
 // Route d'enregistrement
 app.post("/api/register", async (req, res) => {
   const { username, email, password, file } = req.body;
-  console.log(username, email, password, file);
+ //console.log(username, email, password, file);
   try {
     const result = await cloudinary.uploader.upload(file, {
       folder: "user-avatar",
