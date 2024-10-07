@@ -6,8 +6,8 @@ import Viewimg from "./Viewimg";
 import Lottie from "lottie-react"; 
 import loadingAnimation from "../assets/loading.json"; 
 import ViewPosts from './ViewPosts';
-import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
-import 'react-toastify/dist/ReactToastify.css'; // Import styles for toast notifications
+import { ToastContainer, toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
 
 export default function Displayppl() {
   const id = window.location.pathname.split("/")[2];
@@ -28,28 +28,32 @@ export default function Displayppl() {
 
   const handleFollowers = () => {
     if (isfriend || isme) {
-      setIsActive(true);  // Open followers view if friend or self
+      setIsActive(true);  
+    } else if (invitsent) {
+      toast.info("Invite sent. Wait for the user to accept.");  // Show info toast if invite is sent
     } else {
-      toast.error("You need to be friends to view followers.");  // Show error toast if not a friend
+      toast.error("You need to be friends to view followers.");  
     }
   };
   
   const handlePosts = () => {
     if (isfriend || isme) {
-      setPostClicked(true);  // Open posts view if friend or self
+      setPostClicked(true);  
+    } else if (invitsent) {
+      toast.info("Invite sent. Wait for the user to accept.");  // Show info toast if invite is sent
     } else {
-      toast.error("You need to be friends to view posts.");  // Show error toast if not a friend
+      toast.error("You need to be friends to view posts.");  
     }
   };
   
   const closeView = () => {
-    setImgClicked(false); // Close image view
-    setIsActive(false);   // Close followers view
-    setPostClicked(false); // Close posts view
+    setImgClicked(false);
+    setIsActive(false);
+    setPostClicked(false);
   };
 
   const fetchProfile = async () => {
-    setLoading(true); // Set loading to true at the start
+    setLoading(true);
     try {
       const res = await axios.get(`/api/profile/${id}`, { withCredentials: true });
       setIsfriend(res.data.isFriend);
@@ -59,12 +63,12 @@ export default function Displayppl() {
       setName(res.data.name);
       setIsme(res.data.isme);
       setInvitsent(res.data.friendrequest);
-      setOnline(res.data.s === "online" ? "online" : "offline"); // Set online/offline status
+      setOnline(res.data.s === "online" ? "online" : "offline"); 
     } catch (err) {
       console.error(err);
       setError("Failed to load profile data. Please try again later.");
     } finally {
-      setLoading(false); // Set loading to false after fetching
+      setLoading(false);
     }
   };
 
@@ -73,12 +77,13 @@ export default function Displayppl() {
       const res = await axios.post(`/api/followuser/${id}`, { follow: true }, { withCredentials: true });
       if (res.status === 200) {
         setMssg(res.data.message);
-        setIsfriend(true);
-        toast.success("You are now following this user."); // Show success toast
+        setIsfriend(false); // Set isfriend to false initially when following
+        setInvitsent(true); // Set invite sent to true
+        toast.success("Invite sent. Awaiting acceptance."); 
       }
     } catch (err) {
       console.log(err);
-      toast.error("Failed to send follow request."); // Show error toast
+      toast.error("Failed to send follow request."); 
     }
   };
 
@@ -88,33 +93,31 @@ export default function Displayppl() {
       if (res.status === 200) {
         setMssg(res.data.message);
         setIsfriend(false);
-        toast.success("You have unfollowed this user."); // Show success toast
+        setInvitsent(false); // Reset invite state when unfollowing
+        toast.success("You have unfollowed this user."); 
       }
     } catch (err) {
       console.log(err);
-      toast.error("Failed to unfollow the user."); // Show error toast
+      toast.error("Failed to unfollow the user."); 
     }
   };
 
   useEffect(() => {
     fetchProfile();
-
- 
-
   }, [id]);
 
   return (
     <div className="profile">
-      <ToastContainer /> {/* Add ToastContainer for displaying toast notifications */}
+      <ToastContainer />
       {loading ? (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
           <Lottie animationData={loadingAnimation} loop />
         </div>
       ) : (
         <div className="pic-name">
-          {isActive ? ( // Show Followers component if active and friend or self
+          {isActive ? (
             <Followers id={id} closeView={closeView} />
-          ) : postClicked ? ( // Show ViewPosts component if postClicked is true and friend or self
+          ) : postClicked ? (
             <ViewPosts idu={id} closeView={closeView} />
           ) : (
             <div className="color">
@@ -129,7 +132,6 @@ export default function Displayppl() {
 
           <h3>{name}</h3>
           <div className="profile-info">
-            {/* Display the number of posts and followers */}
             <a className="p" onClick={handlePosts}>
               <h3>{nposts} posts</h3>
             </a>
@@ -137,14 +139,12 @@ export default function Displayppl() {
               <h3>{nfriends} followers</h3>
             </a>
           </div>
-          //hello
 
-          {/* Show follow/unfollow button based on friendship status */}
           {!isme && !invitsent ? (
             isfriend ? (
-              <button onClick={handleUnfollow}>Unfollow</button> // Show unfollow button if already friends
+              <button onClick={handleUnfollow}>Unfollow</button>
             ) : (
-              <button onClick={handleFollow}>Follow</button> // Show follow button if not friends
+              <button onClick={handleFollow}>Follow</button>
             )
           ) : invitsent ? (
             <h4>Invite Sent</h4>
