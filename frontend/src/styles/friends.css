@@ -1,0 +1,74 @@
+/* friends.css */
+.title {
+        text-align: center;
+        margin-bottom: 20px;
+        font-family: cursive;
+        color: #333;
+        font-size: 30px;
+    }
+.friends {
+    display: flex;
+    flex-direction: column; /* Align bubbles in a column */
+      gap: 10px; /* Space between each bubble */
+  }
+  
+  .friend-bubble {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0; /* Background color for the bubble */
+    border-radius: 20px; /* Rounded corners */
+    padding: 10px; /* Padding inside the bubble */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    transition: background-color 0.3s; /* Smooth background color transition */
+  }
+  
+  .status-circle {
+    position: relative; /* Positioning for absolute child */
+    width: 50px; /* Set fixed size for status circle */
+    height: 50px; /* Set fixed size for status circle */
+    border-radius: 50%; /* Make it circular */
+    border: 3px solid transparent; /* Default border */
+    overflow: hidden; /* Clip the image to the circle */
+    margin-right: 10px; /* Space between image and text */
+  }
+  
+  .status-circle.online {
+    border-color: green; /* Green border for online status */
+  }
+  
+  .status-circle.offline {
+    border-color: red; /* Red border for offline status */
+  }
+  
+  .friend-image {
+    width: 100%; /* Fill the circle */
+    height: 100%; /* Fill the circle */
+    border-radius: 50%; /* Make the image circular */
+  }
+  
+  .friend-info {
+    display: flex;
+    flex-direction: column; /* Stack name and status vertically */
+  }
+  
+  .friend-name {
+    font-weight: bold; /* Bold for friend's name */
+  }
+  
+  .status-indicator {
+    font-size: 12px; /* Smaller font for status */
+  }
+  
+  .status-indicator.online {
+    color: green; /* Green for online status */
+  }
+  
+  .status-indicator.offline {
+    color: red; /* Red for offline status */
+  }
+  
+  /* Optional hover effect */
+  .friend-bubble:hover {
+    background-color: #e7e7e7; /* Slightly darker on hover */
+  }
+  

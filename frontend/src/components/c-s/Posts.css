@@ -1,0 +1,127 @@
+.postsContainer {
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.postsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.singlePost {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+.postHeader {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.postUser {
+    display: flex;
+    align-items: center;
+}
+
+.postUser img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.postDate {
+    margin-left: auto;
+    color: gray;
+    font-size: 0.8em;
+}
+
+.postContent {
+    padding: 10px;
+    text-align: left;
+}
+
+.postContent p {
+    margin: 5px 0;
+}
+
+.postContent img {
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+.postFooter {
+    padding: 10px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.postLikes {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.postLikes span {
+    margin-left: 5px;
+}
+
+.postComments {
+    display: flex;
+    flex-direction: column;
+}
+
+.toggleCommentsButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.commentsSection {
+    margin-top: 10px;
+}
+
+.commentInputSection {
+    display: flex;
+    margin-top: 10px;
+}
+
+.commentInputSection input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.commentInputSection button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.singleComment {
+    margin-top: 5px;
+}
+
+.commentUser {
+    display: flex;
+    align-items: center;
+}
+
+.commentUser img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}

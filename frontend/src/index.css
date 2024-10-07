@@ -1,0 +1,24 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+/*************  ✨ Codeium Command ⭐  *************/
+  background-image: url("./assets/background.png");
+  background-size: cover;
+
+/******  f9a18582-4985-4e30-b9bd-ddd5d678bb4c  *******/
+  width: 100vw;
+  overflow: auto; /* Allow scrolling */
+}
+
+/* Hide scrollbar for Webkit browsers */
+.app::-webkit-scrollbar {
+  display: none; /* Hides scrollbar */
+}
+
+/* For Firefox */
+.app {
+  scrollbar-width: none; /* Hide scrollbar */
+}

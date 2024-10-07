@@ -1,0 +1,173 @@
+/* Container for the posts modal */
+.viewposts {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align items at the start for better scroll handling */
+  height: 100vh; /* Full viewport height */
+  background-color: rgba(0, 0, 0, 0.8); /* Dark background with transparency */
+  position: fixed; /* Fixed position to cover the entire screen */
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width */
+  z-index: 1000; /* High stacking order */
+  color: white; /* Text color */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds viewport height */
+  padding: 20px; /* Padding around the modal */
+}
+
+/* Styles for images within posts */
+.viewposts img {
+  max-width: 100%; /* Responsive image */
+  border-radius: 10px 10px 0 0; /* Rounded corners at the top */
+  object-fit: cover; /* Cover the entire area while preserving aspect ratio */
+}
+
+/* Style for the posts container */
+.posts {
+  display: flex;
+  flex-direction: column; /* Stack posts vertically */
+  align-items: center; /* Center posts */
+  padding: 20px; /* Padding around posts */
+  max-width: 600px; /* Limit maximum width */
+  margin: 0 auto; /* Center the posts container */
+}
+
+/* Individual post styles (cards) */
+.post {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center items horizontally */
+  background-color: #333; /* Dark background for each post */
+  border-radius: 10px; /* Rounded corners */
+  padding: 15px; /* Padding inside the card */
+  margin-bottom: 20px; /* Spacing between cards */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Card shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+  width: 30vw; /* Responsive width */
+  max-width: 400px; /* Limit width on larger screens */
+}
+
+/* Hover effect for cards */
+.post:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7); /* Stronger shadow on hover */
+}
+
+/* User info styles */
+.info {
+  display: flex;
+  justify-content: space-between; /* Space out user info */
+  align-items: center; /* Align items vertically */
+  margin-bottom: 10px; /* Margin below user info */
+  width: 100%; /* Full width */
+}
+
+/* User image styles */
+.user {
+  display: flex;
+  align-items: center; /* Align image and text */
+}
+
+.user img {
+  width: 40px; /* Fixed size for user images */
+  height: 40px; /* Fixed size for user images */
+  border-radius: 50%; /* Circular user images */
+  margin-right: 10px; /* Space between image and text */
+}
+
+/* Image styles for posts */
+#image {
+  width: 100%; /* Responsive width for post images */
+  height: auto; /* Maintain aspect ratio */
+}
+
+/* Date styles */
+.date {
+  font-size: 12px; /* Font size for the date */
+  color: #bbb; /* Lighter color for the date */
+}
+
+/* Content styles for post text */
+.content {
+  margin: 10px 0; /* Spacing around content */
+  text-align: center; /* Center the text */
+}
+
+.content p {
+  margin: 5px 0; /* Spacing between paragraphs */
+  line-height: 1.5; /* Improve readability */
+  font-size: 16px; /* Base font size for content */
+}
+
+/* Footer styles for likes and comments */
+.footer {
+  display: flex;
+  justify-content: space-between; /* Space out footer elements */
+  align-items: center; /* Center footer items */
+  width: 100%; /* Ensure footer uses full width of the post */
+}
+
+/* Likes and comments sections */
+.likes,
+.comments {
+  display: flex;
+  align-items: center; /* Align icons and text */
+}
+
+.likes a,
+.comments a {
+  color: #1e90ff; /* Link color */
+  cursor: pointer; /* Pointer cursor for links */
+  transition: color 0.2s; /* Smooth color transition */
+}
+
+.likes a:hover,
+.comments a:hover {
+  color: #0b74e5; /* Darker color on hover */
+}
+
+/* Bold styling for numbers */
+.likes span,
+.comments span {
+  margin-left: 5px; /* Space between icon and number */
+  font-weight: bold; /* Highlight the numbers */
+}
+
+/* Responsive design adjustments */
+@media (max-width: 600px) {
+  .viewposts {
+    padding: 10px; /* Add padding on smaller screens */
+  }
+
+  .posts {
+    padding: 15px; /* Adjust padding for posts */
+  }
+
+  .post {
+    padding: 10px; /* Adjust padding for individual posts */
+    margin-bottom: 15px; /* Less margin on mobile */
+  }
+
+  .user img {
+    width: 30px; /* Smaller user images on mobile */
+    height: 30px; /* Smaller user images on mobile */
+  }
+
+  .content p {
+    font-size: 14px; /* Smaller text for mobile */
+  }
+
+  .date {
+    font-size: 10px; /* Smaller date text */
+  }
+
+  .footer {
+    flex-direction: column; /* Stack footer items vertically */
+    align-items: flex-start; /* Align items to the left */
+  }
+
+  .likes,
+  .comments {
+    margin-top: 5px; /* Space between likes and comments sections */
+  }
+}

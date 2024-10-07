@@ -1,0 +1,136 @@
+
+
+
+/* Styles for the Followers Container */
+.fol {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  position: fixed;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  overflow: auto; /* Allow the page to scroll */
+}
+
+/* Followers content */
+.f-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 50px auto; /* Add spacing from the top */
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: visible; /* Allow content to extend naturally */
+}
+
+/* Title for the followers section */
+.f-content h3 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: cursive
+}
+
+/* Each follower item */
+.follower {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+
+  
+}
+
+/* Hover effect for each follower item */
+.follower:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+
+
+/* Name of the follower */
+.follower h3 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #444;
+  margin-left: 20px;
+  width: 90%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+}
+
+
+
+
+.colorx {
+  display: flex;
+  align-items: center;
+  position: relative; /* For positioning child elements */
+  margin-right: 10px; /* Space between image and name */
+}
+
+.colorx .status-circle {
+  position: relative; /* Allows positioning for the inner image */
+  width: 100px; /* Set fixed size for status circle */
+  height: 100px; /* Set fixed size for status circle */
+  border-radius: 50%; /* Make it circular */
+  border: 3px solid transparent; /* Default border */
+  overflow: hidden; /* Clip the image to the circle */
+}
+
+.colorx .status-circle.online {
+  border-color: green; /* Green border for online status */
+}
+
+.colorx .status-circle.offline {
+  border-color: red; /* Red border for offline status */
+}
+
+.colorx .profile-pic {
+  width: 100%; /* Fill the circle */
+  height: 100%; /* Fill the circle */
+  border-radius: 50%; /* Make the image circular */
+}
+
+
+@media (max-width: 768px) {
+  .f-content {
+    margin: 20px auto;
+    padding: 10px;
+  }
+
+  .follower {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 90vw;
+  }
+
+  .follower h3 {
+    width: 100%;
+    text-align: center;
+  }
+
+  .colorx {
+    margin-right: 0;
+  }
+}

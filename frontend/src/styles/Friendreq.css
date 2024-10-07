@@ -1,0 +1,81 @@
+/* Styles for the friend request search input and suggestions */
+.friendreq {
+    width: 50vw;
+    margin: 0 auto;
+    padding: 20px;
+  background-color: #08b7ec;;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  .friendreq h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffffff;
+    font-family: cursive;
+    font-size:x-large;
+  }
+  
+  .friendreq input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+  
+  .friendreq .suggestions {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+  }
+  
+  .suggestions div {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+  }
+  
+  .suggestions div:last-child {
+    border-bottom: none;
+  }
+  
+  .suggestions div:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .suggestions p {
+    margin: 0;
+    font-size: 16px;
+  }
+  
+  .suggestions .loading {
+    text-align: center;
+  }
+  
+  .suggestions a{
+    text-decoration: none;
+  }
+  .suggestions img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+ 
+  .friendreq .loading {
+    text-align: center;
+    font-size: 16px;
+    color: #555;
+  }
+  
+.suggestion{
+display: flex;
+flex-direction: row;
+align-items: center;
+}

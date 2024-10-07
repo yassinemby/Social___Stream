@@ -1,0 +1,37 @@
+.color {
+    position: relative; /* To position the indicator */
+    display: inline-block; /* Required to position the indicator */
+    margin: 2px 0; /* Margin for spacing */
+  }
+  
+  /* Style for profile picture */
+  .color img {
+    max-width: 100%; /* Make sure the image is responsive */
+    height: 100px; /* Keep the aspect ratio */
+    border-radius: 50%; /* Circular profile picture */
+  }
+  
+  /* Online status indicator */
+  .color .online-indicator {
+    position: absolute; /* Position relative to the parent */
+    top: 0; /* Align to the top */
+    right: 0; /* Align to the right */
+    width: 12px; /* Size of the indicator */
+    height: 12px; /* Size of the indicator */
+    background-color: #28a745; /* Green color for online */
+    border-radius: 50%; /* Circular indicator */
+    border: 2px solid white; /* Optional: white border around the indicator */
+  }
+  
+  /* Offline status indicator */
+  .color .offline-indicator {
+    position: absolute; /* Position relative to the parent */
+    top: 0; /* Align to the top */
+    right: 0; /* Align to the right */
+    width: 12px; /* Size of the indicator */
+    height: 12px; /* Size of the indicator */
+    background-color: #dc3545; /* Red color for offline */
+    border-radius: 50%; /* Circular indicator */
+    border: 2px solid white; /* Optional: white border around the indicator */
+  }
+  

@@ -1,0 +1,60 @@
+body {
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+
+.pic-name{
+
+ display: flex;
+flex-direction: row;
+     align-items: center;
+        column-gap: 20px;
+        background-color: rgb(255, 255, 255);
+        padding: 1vw;
+        border-radius: 3vw;
+    }
+
+.pic-name img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-info{
+    display: flex;
+    flex-direction: row;
+    column-gap: 20px;
+    margin-left: 6vw;
+}
+
+.profile .pic-name button{
+    background-color: #08b7ec;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/*************  ✨ Codeium Command ⭐  *************/
+@media only screen and (max-width: 600px) {
+    .pic-name{
+        flex-direction: column;
+        align-items: center;
+        row-gap: 20px;
+        width: 90vw;
+        padding: 3vw;
+        
+    }
+    .profile-info{
+        flex-direction: column;
+        align-items: center;
+        margin-left: 0;
+    }
+}
+/******  1e0ca51d-b329-4cd9-bd7c-b0e2225a7f35  *******/
+
+
+  

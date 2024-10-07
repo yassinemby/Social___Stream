@@ -1,0 +1,91 @@
+/* Notifications.module.css */
+
+.notifications {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 20px auto; /* Added margin to separate from nav */
+  max-height: 800px; /* Set a maximum height */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+/* Hide scrollbar for Webkit browsers */
+.notifications::-webkit-scrollbar {
+  display: none; /* Hides scrollbar */
+}
+
+/* For Firefox */
+.notifications {
+  scrollbar-width: none; /* Hide scrollbar */
+}
+
+
+.notifications p {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+}
+
+.notifications ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notifications li {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.notifications li:last-child {
+  border-bottom: none;
+}
+
+.notifications img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.notifications .notifContent {
+  flex-grow: 1;
+}
+
+.notifications h5 {
+  font-size: 14px;
+  margin: 0;
+  color: #777;
+}
+
+.notifications button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.notifications button:hover {
+  background-color: #0056b3;
+}
+
+.notifications .follow, 
+.notifications .like, 
+.notifications .comment {
+  margin-top: 10px;
+}
+
+.notifications .follow p {
+  color: #28a745; /* Green for accepted notifications */
+}
+
+.notifications .like, 
+.notifications .comment {
+  color: #333; /* Default text color */
+}

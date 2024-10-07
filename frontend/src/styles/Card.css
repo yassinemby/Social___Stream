@@ -1,0 +1,58 @@
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 20px;
+    max-width: 500px;
+    font-family: 'Arial', sans-serif;
+    transition: transform 0.2s ease-in-out;
+    
+   
+  }
+  
+  .card:hover {
+    transform: scale(1.05); /* Adds a hover effect */
+  }
+  
+  .card-img img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .card-description {
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .card-description h4 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .card-reactions {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid #eee;
+  }
+  
+  .card-reactions .fa-heart {
+    color: #e74c3c;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .card-reactions .fa-heart:hover {
+    transform: scale(1.2);
+  }
+  
+  .card-comments {
+    padding: 10px;
+    border-top: 1px solid #eee;
+  }
+  
