@@ -208,6 +208,7 @@ app.patch("/api/like/:id", isAuth, async (req, res) => {
         receiver: response.user,
         post: response._id,
         type: "like",
+        post:id,
         message: `${req.session.user.fullname} liked your post`,
       });
     }
@@ -274,7 +275,7 @@ app.post("/api/comment/:postId", isAuth, async (req, res) => {
     // Create a new comment instance
     const comment = new Comments({
       user: userId, // Ensure user is a valid ObjectId
-      post: postId, // Ensure postId is a valid ObjectId
+      post: postId._id, // Ensure postId is a valid ObjectId
       body: body,
     });
 
@@ -309,9 +310,11 @@ app.get("/api/home", isAuth, async (req, res) => {
         },
       });
 
+      const user=await User.findOne({ _id: userId })
+
     // Fetch posts from the user's friends
     const friendsPosts = await Post.find({
-      user: { $in: req.session.user.friends },
+      user: { $in: user.friends },
     })
       .populate("user", "fullname profilepic") // Populate user details for the post
       .populate({
@@ -741,7 +744,7 @@ app.post("/api/coms/:post", isAuth, async (req, res) => {
       const n = await Notifications.create({
         sender: req.session.user._id,
         receiver: id.user,
-        post: r._id,
+        post: postid,
         type: "comment",
         message: "commented on your post",
       });
@@ -784,6 +787,26 @@ app.get("/api/viewmyposts/:id", isAuth, async (req, res) => {
     res.status(500).json({ msg: "Server error" }); // Fix the spelling of 'msg'
   }
 });
+app.get("/api/viewonepost/:post", isAuth, async (req, res) => {
+  const idpost = req.params.post;
+console.log(idpost);
+  try {
+    // Retrieve the post with its associated user data
+    const post = await Post.findOne({ _id: idpost }).populate("user");
+
+    if (!post) {
+      return res.status(404).json({ msg: "Post not found" });
+    }
+
+    console.log(post);
+    res.status(200).json(post);
+  } catch (error) {
+    console.error("Error retrieving post:", error);
+    res.status(500).json({ msg: "Server error" });
+  }
+});
+
+
 
 app.get("/api/up/:id", isAuth, async (req, res) => {
   const id = req.params.id;

@@ -8,7 +8,7 @@ import loadingAnimation from "../assets/loading.json";
 
 export default function Coms({ user,post, handleCommentAdded, closeView }) {
     //console.log(post);
-
+//console.log(post)
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [commentInput, setCommentInput] = useState('');

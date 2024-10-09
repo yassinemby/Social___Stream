@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import home from "../styles/Home.module.css";
 import Coms from './Coms';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';  // Import useLocation
 import Lottie from "lottie-react";
 import loadingAnimation from "../assets/loading.json";
 
@@ -17,8 +17,9 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [isClick, setIsClick] = useState(false);
   const [post, setPost] = useState(null); // Store full post object instead of just ID
-const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation(); // Get current location
 
   const pending = () => toast.info("Loading", { position: "top-center", theme: "dark", transition: Bounce });
 
@@ -67,8 +68,7 @@ const [user, setUser] = useState(null);
     try {
       const res = await axios.get("/api/getid", { withCredentials: true });
       setId(res.data.id);
-      //console.log(res.data.user)
-      setUser(res.data.user)
+      setUser(res.data.user);
     } catch (error) {
       console.error(error);
     }
@@ -77,14 +77,14 @@ const [user, setUser] = useState(null);
   useEffect(() => {
     getId();
     fetchPosts();
-  }, []);
+  }, [location]);  // Re-run this effect when the location changes
 
   if (loading) {
-    return <div>
-    <Lottie animationData={loadingAnimation} loop/>
-  </div>
-  
-    ;
+    return (
+      <div>
+        <Lottie animationData={loadingAnimation} loop />
+      </div>
+    );
   }
 
   return (
@@ -114,13 +114,13 @@ const [user, setUser] = useState(null);
               </div>
               <div className="comments">
                 <span>{post.comments.length} </span>
-                <a  style={{ cursor: "pointer" ,marginLeft:"5px"}} onClick={() => { setPost(post); setIsClick(true); }}>Comments</a>
+                <a style={{ cursor: "pointer", marginLeft: "5px" }} onClick={() => { setPost(post); setIsClick(true); }}>Comments</a>
               </div>
             </div>
           </div>
         ))}
       </div>
-      {isClick && <Coms user= {user} post={post._id} handleCommentAdded={handleCommentAdded} closeView={() => setIsClick(false)} />}
+      {isClick && <Coms user={user} post={post._id} handleCommentAdded={handleCommentAdded} closeView={() => setIsClick(false)} />}
       <Nav />
     </div>
   );

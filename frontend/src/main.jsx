@@ -15,6 +15,8 @@ import Friends from "./components/Friends";
 import Search from "./pages/Search";
 import Displayppl from "./pages/Displayppl";
 import Viewimg from "./pages/Viewimg";
+import ViewPosts from "./pages/ViewPost";
+import ViewPost from "./pages/ViewPost";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +66,11 @@ const router = createBrowserRouter([
   {
     path: "/DisplayProfile/:id",
     element:<Displayppl/>,
+  }
+,
+  {
+    path: "/viewapost/:idpost",
+    element: <ViewPost/>,
   }
 ]);
 

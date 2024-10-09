@@ -32,6 +32,7 @@ body {
     flex-grow: 1; /* Allow box to take available space */
     overflow-y: auto; /* Enable vertical scrolling within the box */
     margin-top: 5vw;
+    
 }
 
 /* Individual post */
@@ -44,6 +45,9 @@ body {
     border: 1px solid #ccc;
     border-radius: 10px;
     background-color: #1cadc7;
+    width: 100vw;
+    margin-left: 15%;
+   
 }
 
 /* Headings for posts */

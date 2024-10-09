@@ -4,11 +4,14 @@ import Nav from "../components/Nav";
 import notif from "../styles/Notifications.module.css";
 import Lottie from "lottie-react";
 import loadingAnimation from "../assets/loading.json";
+import { useNavigate } from "react-router-dom";
 
 export default function Notifications() {
   const [notifications, setNotifications] = useState([]);
   const [accepted, setAccepted] = useState({});
   const [isloading, setIsloading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleAccept = async (id) => {
     try {
@@ -64,6 +67,7 @@ export default function Notifications() {
                 <img
                   src={notifi.sender.profilepic?.url || "default_image.png"}
                   alt="Notification"
+                  onClick={() => navigate(`/DisplayProfile/${notifi.sender._id}`)}
                 />
                 <div className={notif.notifContent}>
                   <h5>
@@ -89,15 +93,16 @@ export default function Notifications() {
                   )}
 
                   {notifi.type === "like" && (
-                    <div className={notif.like}>
+                    <div className={notif.like} onClick={() => navigate(`/viewapost/${notifi.post}`)}>
                       <p>{notifi.message}</p>
                     </div>
                   )}
 
                   {notifi.type === "comment" && (
-                    <div className={notif.comment}>
+                    <div className={notif.comment} onClick={() => navigate(`/viewapost/${notifi.post}`)} >
                       <p>{notifi.message}</p>
-                    </div>
+                     
+                  </div>
                   )}
                 </div>
               </li>
