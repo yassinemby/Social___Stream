@@ -72,6 +72,7 @@ margin-bottom: 4vw;
   flex-direction: column;
   justify-content: center;
   gap: 10px;
+  align-items: center;
 }
 
 .content img {
@@ -211,10 +212,12 @@ margin-bottom: 4vw;
 @media only screen and (max-width: 600px) {
   .posts {
     flex-direction: column;
+    align-items: center;
   }
 
   .post {
-    margin-bottom: 20px;
+    margin-bottom: 16vw;
+    margin-top: 4vw;
   }
 
   .comment-input {
@@ -226,6 +229,14 @@ margin-bottom: 4vw;
   }
 
   .commentInput button {
+    width: 100%;
+  }
+  .home {
+    width: 100%;
+    margin: 0;
+    padding: 1vw;
+  }
+  .content img  {
     width: 100%;
   }
 }
@@ -268,7 +279,6 @@ margin-bottom: 4vw;
 }
 
 
-/*************  ✨ Codeium Command ⭐  *************/
 @media only screen and (max-width: 600px) {
   .post {
     width: 90vw;
@@ -302,4 +312,3 @@ margin-bottom: 4vw;
     font-size: 14px;
   }
 }
-/******  c11454ca-2141-4d71-8867-1d9693111f98  *******/
