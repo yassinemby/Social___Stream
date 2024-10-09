@@ -146,6 +146,7 @@
   .post {
     padding: 10px; /* Adjust padding for individual posts */
     margin-bottom: 15px; /* Less margin on mobile */
+    width: 80vw; /* Full width on mobile */
   }
 
   .user img {
@@ -171,3 +172,5 @@
     margin-top: 5px; /* Space between likes and comments sections */
   }
 }
+
+

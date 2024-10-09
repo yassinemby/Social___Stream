@@ -116,13 +116,13 @@ body {
 
 /* Media queries for responsiveness */
 @media (max-width: 600px) {
-    .coms {
-        width: 100%;
+    .coms .post{
+        width: 90vw;
         left: 0;
         right: 0;
         bottom: 0;
         top: auto;
-        margin: 0;
+        margin: 2vw;
         padding: 10px;
     }
 
