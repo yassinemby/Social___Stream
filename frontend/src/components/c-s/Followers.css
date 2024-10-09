@@ -113,15 +113,13 @@
 
 @media (max-width: 768px) {
   .f-content {
-    margin: 20px auto;
-    padding: 10px;
+   margin: 0;
+   padding: 0;
   }
 
   .follower {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    padding: 10px;
-    margin-bottom: 10px;
     width: 90vw;
   }
 
@@ -133,4 +131,5 @@
   .colorx {
     margin-right: 0;
   }
+
 }

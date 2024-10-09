@@ -19,24 +19,50 @@ export default function Register() {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: false,
-            theme: "dark",
+            theme: "colored",
             transition: Bounce,
+            toastStyle: {
+                backgroundColor: "#4caf50", // Green for success
+                color: "#fff",
+                fontSize: "14px",
+                borderRadius: "8px",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                padding: "10px",
+            },
         });
+
     const toastPending = () =>
         toast.info("Creating account...", {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: false,
-            theme: "dark",
+            theme: "colored",
             transition: Bounce,
+            toastStyle: {
+                backgroundColor: "#ffa500", // Orange for pending info
+                color: "#fff",
+                fontSize: "14px",
+                borderRadius: "8px",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                padding: "10px",
+            },
         });
-    const toastError = () =>
-        toast.error("Something went wrong", {
+
+    const toastError = (message = "Something went wrong") =>
+        toast.error(message, {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: false,
-            theme: "dark",
+            theme: "colored",
             transition: Bounce,
+            toastStyle: {
+                backgroundColor: "#f44336", // Red for error
+                color: "#fff",
+                fontSize: "14px",
+                borderRadius: "8px",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                padding: "10px",
+            },
         });
 
     // Image preview
@@ -68,7 +94,6 @@ export default function Register() {
         formData.append('password', password);
         formData.append('file', imgPreview);
 
-       // console.log(formData);
         toastPending();  // Displaying pending toast
 
         try {
@@ -108,13 +133,30 @@ export default function Register() {
                 <button type="submit">Register</button>
             </form>
 
-            {/* Toast Notifications */}
+            <a href="/login"><h4>Already have an account? Login</h4></a>
+
+            {/* Toast Notifications with smaller close button */}
             <ToastContainer
                 position="top-center"
                 autoClose={5000}
                 hideProgressBar={false}
-                theme="dark"
+                theme="colored"
                 transition={Bounce}
+                closeButton={({ closeToast }) => (
+                    <button
+                        onClick={closeToast}
+                        style={{
+                            fontSize: "10px", // Smaller button
+                            backgroundColor: "transparent",
+                            color: "#fff",
+                            border: "none",
+                            cursor: "pointer",
+                            width: "20px",
+                        }}
+                    >
+                        ✖
+                    </button>
+                )}
             />
         </div>
     );

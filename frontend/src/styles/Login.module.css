@@ -27,6 +27,16 @@ body {
   color: white;
 }
 
+.login-container h4 {
+  font-size: 20px;
+  color: #ffffff;
+  margin-bottom: 20px;
+  text-align: center;
+  /* Ajouter un peu de marge pour séparer le titre du formulaire */
+  margin-top: 20px;
+  font-family:cursive ;
+}
+
 /* Header styling */
 .login-container h1 {
   font-size: 28px;
@@ -111,4 +121,23 @@ h4 {
   text-align: center;
   /* Ajouter un peu de marge pour séparer le lien d'inscription du formulaire */
   margin-bottom: 20px;
+}
+
+@media screen and (max-width: 600px) {
+  .login-container {
+    max-width: 90vw;
+    background-color: #05a3ff;
+  }
+  
+  .login-container form button {
+    background-color:#05a3ff ;
+  }
+  
+}
+
+.Toastify__toast-body {
+  margin: auto 0;
+  display: flex;
+ flex-direction: column;
+ 
 }

@@ -4,11 +4,9 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-/*************  ✨ Codeium Command ⭐  *************/
   background-image: url("./assets/background.png");
   background-size: cover;
 
-/******  f9a18582-4985-4e30-b9bd-ddd5d678bb4c  *******/
   width: 100vw;
   overflow: auto; /* Allow scrolling */
 }
@@ -21,4 +19,12 @@
 /* For Firefox */
 .app {
   scrollbar-width: none; /* Hide scrollbar */
+}
+
+@media screen and (max-width: 600px) {
+  .app {
+    background-color:#84dcff;
+    background-image: none;
+  }
+  
 }

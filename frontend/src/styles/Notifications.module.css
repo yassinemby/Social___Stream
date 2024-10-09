@@ -89,3 +89,12 @@
 .notifications .comment {
   color: #333; /* Default text color */
 }
+
+
+@media only screen and (max-width: 600px) {
+  .notifications {
+    margin: 3vw;
+    margin-bottom: 20vw;
+    margin-top: 30vw;
+  }
+}

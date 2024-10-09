@@ -3,7 +3,7 @@
         text-align: center;
         margin-bottom: 20px;
         font-family: cursive;
-        color: #333;
+        color: #ffffff;
         font-size: 30px;
     }
 .friends {
@@ -72,3 +72,15 @@
     background-color: #e7e7e7; /* Slightly darker on hover */
   }
   
+  
+  /* Responsiveness for mobile */
+  @media only screen and (max-width: 600px) {
+    .friends {
+      flex-direction: column; /* Stack bubbles vertically on mobile */
+    }
+  
+    .friend-bubble {
+      flex-direction: row; /* Stack image and text vertically on mobile */
+      align-items: center; /* Center items horizontally on mobile */
+    }
+  }

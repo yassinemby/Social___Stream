@@ -10,9 +10,8 @@
   left: 0;
   width: 100%; /* Full width */
   z-index: 1000; /* High stacking order */
-  color: white; /* Text color */
+  color: rgb(61, 61, 61); /* Text color */
   overflow-y: auto; /* Enable vertical scrolling if content exceeds viewport height */
-  padding: 20px; /* Padding around the modal */
 }
 
 /* Styles for images within posts */
@@ -136,7 +135,7 @@
 /* Responsive design adjustments */
 @media (max-width: 600px) {
   .viewposts {
-    padding: 10px; /* Add padding on smaller screens */
+    padding: 0; /* Add padding on smaller screens */
   }
 
   .posts {
@@ -147,6 +146,8 @@
     padding: 10px; /* Adjust padding for individual posts */
     margin-bottom: 15px; /* Less margin on mobile */
     width: 80vw; /* Full width on mobile */
+    background-color: aliceblue;
+
   }
 
   .user img {
@@ -163,8 +164,9 @@
   }
 
   .footer {
-    flex-direction: column; /* Stack footer items vertically */
+    flex-direction: row; /* Stack footer items vertically */
     align-items: flex-start; /* Align items to the left */
+    
   }
 
   .likes,

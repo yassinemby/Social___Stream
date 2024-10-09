@@ -8,21 +8,55 @@ import login from "../styles/Login.module.css";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const notify = () =>
-    toast.success("Login successful", {
-      position: "top-center",
+  // Success notification
+  const notifySuccess = () =>
+    toast.success("Logged in successfully", {
+      position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "dark",
+      theme: "colored",
       transition: Bounce,
+      toastStyle: {
+        backgroundColor: "#4caf50", // Green for success
+        color: "#fff",
+        fontSize: "14px",
+        borderRadius: "8px",
+        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+        padding: "10px",
+        width: "90vw",
+        marginRight: "10vw",
+      },
     });
 
-  const navigate = useNavigate();
+  // Error notification
+  const notifyError = (errorMessage) =>
+    toast.error(errorMessage, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Bounce,
+      toastStyle: {
+        backgroundColor: "#f44336", // Red for error
+        color: "#fff",
+        fontSize: "14px",
+        borderRadius: "8px",
+        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+        padding: "10px",
+        width: "90vw",
+        marginRight: "10vw",
+      },
+    });
 
   const handlesubmit = async (e) => {
     e.preventDefault();
@@ -37,12 +71,13 @@ export default function Login() {
         }
       );
       if (response.status === 200) {
-        notify();
+        notifySuccess(); // Success toast
         setTimeout(() => {
           navigate("/home");
         }, 2000);
       }
     } catch (error) {
+      notifyError(error.response?.data?.message || "Login failed. Please try again.");
       console.log(error.response?.data || error.message);
     }
   };
@@ -68,8 +103,10 @@ export default function Login() {
           required
         />
         <button type="submit">Login</button>
+
+        {/* ToastContainer with modified close button size */}
         <ToastContainer
-          position="top-center"
+          position="top-right"
           autoClose={5000}
           hideProgressBar={false}
           newestOnTop={false}
@@ -78,10 +115,29 @@ export default function Login() {
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          theme="dark"
+          theme="colored"
           transition={Bounce}
-
-
+          toastStyle={{
+            fontSize: "14px", // Smaller text
+          }}
+          progressStyle={{
+            backgroundColor: "white", // Green for success
+          }}
+          closeButton={({ closeToast }) => (
+            <button
+              onClick={closeToast}
+              style={{
+                fontSize: "10px", // Smaller button
+                backgroundColor: "transparent",
+                color: "#fff",
+                border: "none",
+                cursor: "pointer",
+                width: "20px",
+              }}
+            >
+              ✖
+            </button>
+          )}
         />
       </form>
       <Link to="/register">

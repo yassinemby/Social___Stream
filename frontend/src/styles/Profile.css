@@ -38,7 +38,6 @@ flex-direction: row;
     cursor: pointer;
 }
 
-/*************  ✨ Codeium Command ⭐  *************/
 @media only screen and (max-width: 600px) {
     .pic-name{
         flex-direction: column;
@@ -46,6 +45,7 @@ flex-direction: row;
         row-gap: 20px;
         width: 90vw;
         padding: 3vw;
+        border-radius: 10vw; ;
         
     }
     .profile-info{
@@ -53,8 +53,17 @@ flex-direction: row;
         align-items: center;
         margin-left: 0;
     }
+    .pic-name button:hover{
+        background-color: #0056b3;
+    }
+    .profile-info h3{
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+    .profile-info p{
+        font-size: 1rem;
+    }
 }
-/******  1e0ca51d-b329-4cd9-bd7c-b0e2225a7f35  *******/
 
 
   

@@ -8,21 +8,18 @@
   margin-top: 4vw;
 }
 
-.home {
-  overflow-y: scroll;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-
+/* Hide scrollbar for all browsers */
+::-webkit-scrollbar {
+  display: none;
 }
 
-/* Hide scrollbar for Webkit browsers */
-.home::-webkit-scrollbar {
-  display: none; /* Hides scrollbar */
+/* Firefox */
+* {
+  scrollbar-width: none;
 }
 
-.home::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, and Opera */
-}
+
+
 .title {
   text-align: center;
   margin-bottom: 20px;
@@ -224,6 +221,7 @@ margin-bottom: 4vw;
     align-items: center;
     width: 80vw;
     margin: auto;
+    margin-top: 5vw;
   }
 
   .post {
@@ -295,6 +293,7 @@ margin-bottom: 4vw;
 @media only screen and (max-width: 600px) {
   .post {
     width: 90vw;
+    background-color: rgb(255, 255, 255);
   }
 
   .postContent {
