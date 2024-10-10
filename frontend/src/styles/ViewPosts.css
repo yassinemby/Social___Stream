@@ -44,6 +44,8 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
   width: 30vw; /* Responsive width */
   max-width: 400px; /* Limit width on larger screens */
+  font-size: 15px;
+
 }
 
 /* Hover effect for cards */
@@ -140,6 +142,12 @@
 
   .posts {
     padding: 15px; /* Adjust padding for posts */
+    color: #000000;
+    font-size: small;
+  }
+
+  .info span{
+    color: #5b5b5b;
   }
 
   .post {
