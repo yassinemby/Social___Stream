@@ -71,6 +71,10 @@ const router = createBrowserRouter([
   {
     path: "/viewapost/:idpost",
     element: <ViewPost/>,
+  },
+  {
+    path: "/viewapost/:idsender/:idpost",
+    element: <ViewPost open={true}/>,
   }
 ]);
 

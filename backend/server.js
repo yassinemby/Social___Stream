@@ -798,7 +798,7 @@ console.log(idpost);
       return res.status(404).json({ msg: "Post not found" });
     }
 
-    console.log(post);
+    //console.log(post);
     res.status(200).json(post);
   } catch (error) {
     console.error("Error retrieving post:", error);

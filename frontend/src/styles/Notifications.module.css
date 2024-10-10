@@ -81,6 +81,23 @@
   margin-top: 10px;
 }
 
+.notifications .comment :hover{
+  background-color: #007bffb6;
+  transition: 0.2s ease-in-out;
+  border-radius: 5vw;
+  color: white;
+  cursor: pointer;
+
+}
+.notifications .like :hover{
+  background-color: #007bffb6;
+  transition: 0.2s ease-in-out;
+  border-radius: 5vw;
+  color: white;
+  cursor: pointer;
+
+}
+
 .notifications .follow p {
   color: #28a745; /* Green for accepted notifications */
 }

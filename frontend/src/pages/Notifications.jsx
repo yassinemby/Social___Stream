@@ -99,7 +99,7 @@ export default function Notifications() {
                   )}
 
                   {notifi.type === "comment" && (
-                    <div className={notif.comment} onClick={() => navigate(`/viewapost/${notifi.post}`)} >
+                    <div className={notif.comment} onClick={() => navigate(`/viewapost/${notifi.sender._id}/${notifi.post}`)} >
                       <p>{notifi.message}</p>
                      
                   </div>

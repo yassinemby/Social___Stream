@@ -10,7 +10,7 @@
   left: 0;
   width: 100%; /* Full width */
   z-index: 1000; /* High stacking order */
-  color: rgb(61, 61, 61); /* Text color */
+  color: rgb(255, 255, 255); /* Text color */
   overflow-y: auto; /* Enable vertical scrolling if content exceeds viewport height */
 }
 

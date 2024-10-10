@@ -6,37 +6,36 @@ import "../styles/Coms.css";
 const Lottie = lazy(() => import('lottie-react')); // Lazy load Lottie
 import loadingAnimation from "../assets/loading.json";
 
-export default function Coms({ user,post, handleCommentAdded, closeView }) {
-    //console.log(post);
-//console.log(post)
+export default function Coms({ user, post, handleCommentAdded, closeView }) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [commentInput, setCommentInput] = useState('');
 
+    // Handle new comment submission
     const handleComment = async () => {
         try {
             const newComment = {
                 body: commentInput,
-                user: { // Use the full user object, not just the ID
+                user: {
                     _id: user._id,
-                    profilepic: user.profilepic, // Include profile picture
-                    fullname: user.fullname // Include full name
+                    profilepic: user.profilepic,
+                    fullname: user.fullname
                 },
                 post: post,
-                date: new Date() // Add the current date for display
+                date: new Date()
             };
-    
+
             setData((prevData) => [...prevData, newComment]); // Optimistically update UI
             await axios.post("/api/coms/" + post, { body: commentInput }, { withCredentials: true });
             setCommentInput('');
-            handleCommentAdded(post); // Notify parent component
+            handleCommentAdded(post); // Notify parent to refresh comments
         } catch (error) {
             console.error(error);
             toast.error("Failed to submit your comment.");
         }
     };
-    
 
+    // Fetch existing comments for the post
     const fetchPosts = async () => {
         setLoading(true);
         try {
@@ -66,7 +65,7 @@ export default function Coms({ user,post, handleCommentAdded, closeView }) {
                 ) : (
                     data.map((comment, index) => (
                         <div className='post' key={index}>
-                            <img src={comment.user.profilepic.url} alt="" />
+                            <img src={comment.user.profilepic.url} alt="User Profile" />
                             <div>
                                 <h5>{comment.user.fullname}</h5>
                                 <h3>{new Date(comment.date).toLocaleString()}</h3>
