@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Coms from './Coms';
 import { useNavigate } from 'react-router-dom';
+import Nav from '../components/Nav';
 
 export default function ViewPosts({idu, closeView }) {
     const postId = window.location.pathname.split("/").pop(); // Get the post ID from the URL
@@ -91,6 +92,7 @@ export default function ViewPosts({idu, closeView }) {
     };
 
     return (
+        <>
         <div className='viewposts' onClick={handleClose}>
             <ToastContainer />
             <div className="posts">
@@ -123,5 +125,7 @@ export default function ViewPosts({idu, closeView }) {
             </div>
             {isClick && selectedPost && <Coms user={user} post={selectedPost} handleCommentAdded={fetchPosts} closeView={() => setIsClick(false)} />}
         </div>
+        <Nav/>
+        </>
     );
 }

@@ -82,5 +82,7 @@
     .friend-bubble {
       flex-direction: row; /* Stack image and text vertically on mobile */
       align-items: center; /* Center items horizontally on mobile */
+      font-family: serif;
+ 
     }
   }
