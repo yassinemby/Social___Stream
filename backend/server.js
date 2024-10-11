@@ -89,40 +89,73 @@ async function comparePasswords(inputPassword, storedPassword) {
     throw new Error("Error comparing passwords");
   }
 }
+
+
 app.get("/", (req, res) => {});
 // Route de connexion
+const soc = () => {
+  let currentSocketId;
+
+  io.on("connection", (socket) => {
+    console.info(`Client connected [id=${socket.id}]`);
+    currentSocketId = socket.id; // Store the current socket ID
+
+    socket.on("login", (userid) => {
+      console.log(`User logged in: ${userid}`);
+      // Store the socket ID associated with the user if needed
+    });
+
+    socket.on("disconnect", () => {
+      console.info(`Client disconnected [id=${socket.id}]`);
+    });
+  });
+
+  // Return a function to get the latest socket ID
+  return () => currentSocketId;
+};
+
+const getCurrentSocketId = soc();
+
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Trouver l'utilisateur par email
+    // Find user by email
     const user = await findUserByEmail(email);
 
-    // Vérifier si l'utilisateur existe
+    // Check if the user exists
     if (!user) {
       return res.status(400).json({ message: "User does not exist" });
     }
 
-    // Comparer les mots de passe
+    // Compare passwords
     const isMatch = await comparePasswords(password, user.password);
 
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // Authentifier l'utilisateur
+    // Authenticate user
     req.session.user = user;
     req.session.isAuth = true;
-    const s = await User.findByIdAndUpdate(user._id, { status: "online" });
+
+    // Get the current socket ID
+    const socketId = getCurrentSocketId();
+    const q = await User.findOneAndUpdate({ _id: user._id }, { socketid: socketId });
+    console.log("Socket ID:", socketId);
+
+    // Update user status
+    const updatedUser = await User.findByIdAndUpdate(user._id, { status: "online" });
     console.log("Session ID:", req.sessionID);
 
-    // Réponse de succès
-    res.status(200).json({ message: "Login successful" });
+    // Response success
+    res.status(200).json({ message: "Login successful", user: updatedUser._id });
   } catch (error) {
     console.error("Login error:", error.message);
     res.status(500).json({ message: "Server error" });
   }
 });
+
 
 app.get("/api/name", (req, res) => {
   const name = req.session.user.fullname;
@@ -218,17 +251,19 @@ app.patch("/api/like/:id", isAuth, async (req, res) => {
         receiver: response.user,
         post: response._id,
         type: "like",
-        post:id,
+        post: id,
         message: `${req.session.user.fullname} liked your post`,
       });
-      io.emit("notification", {
-        sender: req.session.user._id,
-        receiver: response.user,
-        post: response._id,
-        type: "like",
-        post:id,
-        message: `${req.session.user.fullname} liked your post`,
-      });
+//user: response.user._id
+      // Get the current socket ID
+      const soc = await User.findById(response.user._id);
+      const socketId = soc.socketid;
+
+      // Check if the post owner (response.user) is connected
+        io.to(socketId).emit("notification", {
+          message: `${req.session.user.fullname} liked your post`,
+        });
+      
     }
 
     // Return the updated post data
@@ -241,6 +276,7 @@ app.patch("/api/like/:id", isAuth, async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 });
+
 
 // Unlike a post
 app.patch("/api/unlike/:id", async (req, res) => {
@@ -398,7 +434,7 @@ app.get("/api/logout", isAuth, async (req, res) => {
     const s = await User.findByIdAndUpdate(id, {
       status: "offline",
       lastActive: new Date(),
-    });
+    },{socketid: null});
 
     res.clearCookie("connect.sid");
     res.status(200).json({ message: "Deconnexion reussie" });
@@ -442,10 +478,11 @@ app.post("/api/friendreq", isAuth, async (req, res) => {
       message: "sent you a friend request.",
     });
 
-    io.emit("notification", {
-      sender: userid,
-      receiver: userTo._id,
-      type: "follow",
+
+    const s = await User.findOne({ _id: userTo._id });
+
+    const socket = s.socketid;
+    io.to(socket).emit("notification", {
       message: sender.fullname + "sent you a friend request.",
     })
     // Respond with success
@@ -773,12 +810,10 @@ app.post("/api/coms/:post", isAuth, async (req, res) => {
         type: "comment",
         message: "commented on your post",
       });
-      io.emit("notification", {
-        sender: req.session.user._id,
-        receiver: id.user,
-        post: postid,
-        type: "comment",
-        message:sender.fullname+"commented on your post",
+      const s=await User.findById({ _id: id.user });
+      const socket = s.socketid;
+      io.to(socket).emit("notification", {
+        message:req.session.user.fullname + "commented on your post",
       });
     }
     res.status(200).json(r);
@@ -876,11 +911,11 @@ app.post("/api/followuser/:id", isAuth, async (req, res) => {
       type: "follow",
       message: "sent you a friend request.",
     });
-    io.emit("notification", {
-      sender: userid,
-      receiver: friend,
-      type: "follow",
-      message: sender.fullname+"sent you a friend request.",
+
+    const s=await User.findById({ _id: friend });
+    const socket = s.socketid;
+    io.to(socket).emit("notification", {
+      message: req.session.user.fullname + "sent you a friend request.",
     })
 
     // Respond with success
@@ -937,21 +972,6 @@ app.get("/api/friendreq/:value", isAuth, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
-
-
-
-
-
-
-
-  io.on('connection',(socket) => {
-    console.log('New client connected');
-    socket.on('disconnect', () => {
-      console.log('Client disconnected');
-    });
-  });
-
 
 
 
