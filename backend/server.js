@@ -16,7 +16,17 @@ const path = require("path");
 const app = express();
 // Middleware de traitement des fichiers
 const upload = multer();
+const http = require('http');
+const socketIo = require('socket.io');
+const server = http.createServer(app);
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:5173", // React app URL
+    methods: ["GET", "POST"]
+  }
+});
 
+app.use(cors());
 // Middleware de gestion des données de formulaire
 const formData = require("express-form-data");
 
@@ -204,6 +214,14 @@ app.patch("/api/like/:id", isAuth, async (req, res) => {
     // Only send a notification if the liker is not the owner of the post
     if (liker !== response.user.toString()) {
       await Notifications.create({
+        sender: req.session.user._id,
+        receiver: response.user,
+        post: response._id,
+        type: "like",
+        post:id,
+        message: `${req.session.user.fullname} liked your post`,
+      });
+      io.emit("notification", {
         sender: req.session.user._id,
         receiver: response.user,
         post: response._id,
@@ -423,6 +441,13 @@ app.post("/api/friendreq", isAuth, async (req, res) => {
       type: "follow",
       message: "sent you a friend request.",
     });
+
+    io.emit("notification", {
+      sender: userid,
+      receiver: userTo._id,
+      type: "follow",
+      message: sender.fullname + "sent you a friend request.",
+    })
     // Respond with success
     return res
       .status(200)
@@ -748,6 +773,13 @@ app.post("/api/coms/:post", isAuth, async (req, res) => {
         type: "comment",
         message: "commented on your post",
       });
+      io.emit("notification", {
+        sender: req.session.user._id,
+        receiver: id.user,
+        post: postid,
+        type: "comment",
+        message:sender.fullname+"commented on your post",
+      });
     }
     res.status(200).json(r);
   } catch (error) {
@@ -806,8 +838,6 @@ console.log(idpost);
   }
 });
 
-
-
 app.get("/api/up/:id", isAuth, async (req, res) => {
   const id = req.params.id;
   console.log(id);
@@ -846,6 +876,12 @@ app.post("/api/followuser/:id", isAuth, async (req, res) => {
       type: "follow",
       message: "sent you a friend request.",
     });
+    io.emit("notification", {
+      sender: userid,
+      receiver: friend,
+      type: "follow",
+      message: sender.fullname+"sent you a friend request.",
+    })
 
     // Respond with success
     res.status(200).json({ message: "Friend request sent successfully." });
@@ -902,6 +938,28 @@ app.get("/api/friendreq/:value", isAuth, async (req, res) => {
   }
 });
 
+
+
+
+
+
+
+
+  io.on('connection',(socket) => {
+    console.log('New client connected');
+    socket.on('disconnect', () => {
+      console.log('Client disconnected');
+    });
+  });
+
+
+
+
+
+
+
+
+
 let dirname = path.resolve();
 app.use(express.static(path.join(dirname, "/frontend/dist")));
 app.get("*", (req, res) => {
@@ -909,14 +967,23 @@ app.get("*", (req, res) => {
 });
 // Connexion à la base de données et démarrage du serveur
 
+
+
+
+
+
 mongoose
   .connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => {
-    app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
+    // Start the server after a successful database connection
+    server.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+
   })
   .catch((err) => {
-    console.log(err);
+    console.log("Error connecting to the database:", err);
   });

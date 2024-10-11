@@ -10,6 +10,7 @@ import Coms from './Coms';
 import { useNavigate, useLocation } from 'react-router-dom';  // Import useLocation
 import Lottie from "lottie-react";
 import loadingAnimation from "../assets/loading.json";
+import UseNotif from "../customhook/UseNotif";
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -88,6 +89,8 @@ export default function Home() {
   }
 
   return (
+    <>
+    <UseNotif />
     <div className={home.home}>
       <ToastContainer />
       <div className={home.posts}>
@@ -123,5 +126,6 @@ export default function Home() {
       {isClick && <Coms user={user} post={post._id} handleCommentAdded={handleCommentAdded} closeView={() => setIsClick(false)} />}
       <Nav />
     </div>
+    </>
   );
 }

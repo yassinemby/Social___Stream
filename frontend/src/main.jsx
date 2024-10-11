@@ -17,6 +17,9 @@ import Displayppl from "./pages/Displayppl";
 import Viewimg from "./pages/Viewimg";
 import ViewPosts from "./pages/ViewPost";
 import ViewPost from "./pages/ViewPost";
+import Notif from "./pages/Notif";
+import UseNotif from "../src/customhook/UseNotif";
+
 
 const router = createBrowserRouter([
   {
@@ -75,13 +78,20 @@ const router = createBrowserRouter([
   {
     path: "/viewapost/:idsender/:idpost",
     element: <ViewPost open={true}/>,
-  }
+  },
+  {
+   path:"/socketio",
+   element:<Notif/>
+  },
+  {
+    path:"/socketioo",
+    element:<UseNotif/>
+   }
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <div className="app">
-      {" "}
       <RouterProvider router={router} />
     </div>
   </StrictMode>
