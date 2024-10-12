@@ -85,7 +85,16 @@ const socketIo = require('socket.io');
 const server = http.createServer(app);
 
 
-const io = socketIo(server);
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:5173", 
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
+
+app.use(cors());
+
 app.set('io', io);
 
 
@@ -417,6 +426,9 @@ app.get("/api/logout", isAuth, async (req, res) => {
       console.log("Erreur lors de la destruction de la session :", err);
       return res.status(500).send("Erreur lors de la déconnexion");
     }
+
+    const user = await User.findByIdAndUpdate(id, { status: "offline" });
+   
     res.clearCookie("connect.sid");
     res.status(200).json({ message: "Deconnexion reussie" });
   });
