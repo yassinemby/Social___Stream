@@ -4,8 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import login from "../styles/Login.module.css";
-import { io } from 'socket.io-client';
-const socket = io(); // Connect to the socket
+
 
 
 export default function Login() {
@@ -76,7 +75,7 @@ export default function Login() {
       if (response.status === 200) {
         notifySuccess(); // Success toast
        console.log(response.data.user);
-        socket.emit("login", {userid:response.data.user});
+      localStorage.setItem("user", JSON.stringify(response.data.user));
         setTimeout(() => {
           navigate("/home");
         }, 2000);

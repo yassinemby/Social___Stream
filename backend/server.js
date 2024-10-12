@@ -16,17 +16,6 @@ const path = require("path");
 const app = express();
 // Middleware de traitement des fichiers
 const upload = multer();
-const http = require('http');
-const socketIo = require('socket.io');
-const server = http.createServer(app);
-const io = socketIo(server, {
-  cors: {
-    origin: "http://localhost:5173", // React app URL
-    methods: ["GET", "POST"]
-  }
-});
-
-app.use(cors());
 // Middleware de gestion des données de formulaire
 const formData = require("express-form-data");
 
@@ -91,30 +80,41 @@ async function comparePasswords(inputPassword, storedPassword) {
 }
 
 
-app.get("/", (req, res) => {});
-// Route de connexion
-const soc = () => {
-  let currentSocketId;
+const http = require('http');
+const socketIo = require('socket.io');
+const server = http.createServer(app);
 
-  io.on("connection", (socket) => {
-    console.info(`Client connected [id=${socket.id}]`);
-    currentSocketId = socket.id; // Store the current socket ID
 
-    socket.on("login", (userid) => {
-      console.log(`User logged in: ${userid}`);
-      // Store the socket ID associated with the user if needed
-    });
+const io = socketIo(server, {
+  cors: {
+    origin: "*", 
+    methods: ["GET", "POST"]
+  }
+});
 
-    socket.on("disconnect", () => {
-      console.info(`Client disconnected [id=${socket.id}]`);
-    });
+app.use(cors());
+app.set('io', io);
+
+
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
+
+  socket.on("join", ({ room, user }) => {
+      socket.join(room);
+      console.log(`User ${user.fullname} joined room: ${room}`);
   });
 
-  // Return a function to get the latest socket ID
-  return () => currentSocketId;
-};
+  socket.on("leave", ({ room, user }) => {
+      socket.leave(room);
+      console.log(`User ${user.fullname} left room: ${room}`);
+  });
 
-const getCurrentSocketId = soc();
+  // Emit notifications from the server
+  socket.on("disconnect", () => {
+      console.log("User disconnected:", socket.id);
+  });
+});
+
 
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
@@ -138,11 +138,6 @@ app.post("/api/login", async (req, res) => {
     // Authenticate user
     req.session.user = user;
     req.session.isAuth = true;
-
-    // Get the current socket ID
-    const socketId = getCurrentSocketId();
-    const q = await User.findOneAndUpdate({ _id: user._id }, { socketid: socketId });
-    console.log("Socket ID:", socketId);
 
     // Update user status
     const updatedUser = await User.findByIdAndUpdate(user._id, { status: "online" });
@@ -255,14 +250,13 @@ app.patch("/api/like/:id", isAuth, async (req, res) => {
         message: `${req.session.user.fullname} liked your post`,
       });
 //user: response.user._id
-      // Get the current socket ID
-      const soc = await User.findById(response.user._id);
-      const socketId = soc.socketid;
-
-      // Check if the post owner (response.user) is connected
-        io.to(socketId).emit("notification", {
-          message: `${req.session.user.fullname} liked your post`,
-        });
+//console.log(liker,"liked : ",response.user._id.toString())
+      // Emit the notification using io
+      const io = req.app.get('io');
+      io.to(response.user._id.toString()).emit('message', {
+        text: `${req.session.user.fullname} liked your post`,
+        postId: id
+      });
       
     }
 
@@ -430,35 +424,27 @@ app.get("/api/logout", isAuth, async (req, res) => {
       console.log("Erreur lors de la destruction de la session :", err);
       return res.status(500).send("Erreur lors de la déconnexion");
     }
-
-    const s = await User.findByIdAndUpdate(id, {
-      status: "offline",
-      lastActive: new Date(),
-    },{socketid: null});
-
     res.clearCookie("connect.sid");
     res.status(200).json({ message: "Deconnexion reussie" });
   });
 });
 
 app.post("/api/friendreq", isAuth, async (req, res) => {
-  const { friend } = req.body; // Email to whom the request is being sent
+  const { friend } = req.body; // Email of the user to whom the request is being sent
   const userid = req.session.user._id; // ID of the currently authenticated user
 
   try {
     // Find the user to whom the friend request is being sent
     const userTo = await User.findOne({ email: friend });
 
-    // Check if the user was found
+    // Check if the user exists
     if (!userTo) {
       return res.status(400).json({ message: "User does not exist." });
     }
 
     // Ensure the user is not sending a request to themselves
     if (userTo._id.equals(userid)) {
-      return res
-        .status(400)
-        .json({ message: "Cannot send a friend request to yourself." });
+      return res.status(400).json({ message: "Cannot send a friend request to yourself." });
     }
 
     // Check if the friend request has already been sent
@@ -466,11 +452,13 @@ app.post("/api/friendreq", isAuth, async (req, res) => {
       return res.status(400).json({ message: "Friend request already sent." });
     }
 
-    // Update the user document by adding the friend request
+    // Update the user's document by adding the friend request
     await User.updateOne(
       { email: friend },
       { $push: { friendrequests: userid } }
     );
+
+    // Create a notification
     await Notifications.create({
       sender: userid,
       receiver: userTo._id,
@@ -478,22 +466,23 @@ app.post("/api/friendreq", isAuth, async (req, res) => {
       message: "sent you a friend request.",
     });
 
+    console.log('receiver',userTo._id.toString() )
+    // Emit the notification using Socket.IO
+    const io = req.app.get('io');  // Assuming 'io' is set on your app
+    io.to(userTo._id.toString()).emit('message', {
+      text: `${req.session.user.fullname} sent you a friend request.`,
+      type: 'friend_request',
+      from: userid
+    });
 
-    const s = await User.findOne({ _id: userTo._id });
-
-    const socket = s.socketid;
-    io.to(socket).emit("notification", {
-      message: sender.fullname + "sent you a friend request.",
-    })
     // Respond with success
-    return res
-      .status(200)
-      .json({ message: "Friend request sent successfully." });
+    return res.status(200).json({ message: "Friend request sent successfully." });
   } catch (error) {
     console.error("Error processing friend request:", error);
     return res.status(500).json({ message: "Server error." });
   }
 });
+
 
 app.get("/api/notifications", isAuth, async (req, res) => {
   const userId = req.session.user._id; // Get the current user's ID
@@ -518,7 +507,7 @@ app.get("/api/notifications", isAuth, async (req, res) => {
         return { ...notif, isaccepted: isFriend };
       })
     );
-    console.log(updatedNotifications);
+   // console.log(updatedNotifications);
     res.status(200).json(updatedNotifications); // Send updated notifications with 'isaccepted'
   } catch (error) {
     console.error("Error fetching notifications:", error);
@@ -762,7 +751,7 @@ app.get("/api/followersof/:id", isAuth, async (req, res) => {
   const id = req.params.id;
   try {
     const resp = await User.findOne({ _id: id }).populate("friends");
-    console.log(resp.friends);
+    //console.log(resp.friends);
     res.status(200).json(resp.friends);
   } catch (err) {
     console.log(err);
@@ -790,38 +779,55 @@ app.get("/api/coms/:post", isAuth, async (req, res) => {
 app.post("/api/coms/:post", isAuth, async (req, res) => {
   const postid = req.params.post;
   const body = req.body.body;
+
   try {
-    const id = await Post.findOne({ _id: postid });
-    const r = await Comments.create({
+    // Find the post by its ID
+    const post = await Post.findOne({ _id: postid });
+
+    // Create a new comment
+    const newComment = await Comments.create({
       body: body,
       post: postid,
       user: req.session.user._id,
     });
-    //console.log(id.user.toString() !== req.session.user._id)
-    const p = await Post.findOneAndUpdate(
+
+    // Push the new comment to the post's comments array
+    await Post.findOneAndUpdate(
       { _id: postid },
-      { $push: { comments: r._id } }
+      { $push: { comments: newComment._id } }
     );
-    if (id.user.toString() !== req.session.user._id.toString()) {
-      const n = await Notifications.create({
+
+    // If the commenter is not the post owner, send a notification
+    if (post.user.toString() !== req.session.user._id.toString()) {
+      // Create a notification for the post owner
+      await Notifications.create({
         sender: req.session.user._id,
-        receiver: id.user,
+        receiver: post.user,
         post: postid,
         type: "comment",
         message: "commented on your post",
       });
-      const s=await User.findById({ _id: id.user });
-      const socket = s.socketid;
-      io.to(socket).emit("notification", {
-        message:req.session.user.fullname + "commented on your post",
+
+      // Get io instance and emit the notification
+      const io = req.app.get('io');  // Ensure 'io' is set on your app
+     // console.log(io);  // Check if 'io' is not undefined
+
+      // Emit notification to the post owner
+      io.to(post.user.toString()).emit('message', {
+        text: `${req.session.user.fullname} commented on your post.`,
+        postId: postid,
+        type: 'comment',
       });
     }
-    res.status(200).json(r);
+
+    // Send the new comment as the response
+    res.status(200).json(newComment);
   } catch (error) {
-    console.error(error);
+    console.error("Error adding comment:", error);
     res.status(500).json({ mssg: "Server error" });
   }
 });
+
 
 app.post("/api/follow/:id", isAuth, async (req, res) => {
   const id = req.params.id;
@@ -847,7 +853,7 @@ app.get("/api/viewmyposts/:id", isAuth, async (req, res) => {
       .populate("user")
       .sort({ createdAt: -1 });
 
-    console.log(posts);
+    //console.log(posts);
     res.status(200).json(posts); // Return the list of posts
   } catch (error) {
     console.log(error);
@@ -875,14 +881,14 @@ console.log(idpost);
 
 app.get("/api/up/:id", isAuth, async (req, res) => {
   const id = req.params.id;
-  console.log(id);
+  //console.log(id);
 
   // Here you would typically fetch the post from your database
   // Example:
   const post = await Post.findById(id);
   if (!post) return res.status(404).json({ message: "Post not found" });
 
-  console.log(post);
+  //console.log(post);
   // Return a sample response for testing
 });
 
@@ -902,7 +908,7 @@ app.post("/api/followuser/:id", isAuth, async (req, res) => {
       { _id: friend },
       { $push: { friendrequests: userid } }
     );
-    console.log(updateRes);
+   // console.log(updateRes);
 
     // Create a notification for the friend request
     const notification = await Notifications.create({
@@ -911,12 +917,12 @@ app.post("/api/followuser/:id", isAuth, async (req, res) => {
       type: "follow",
       message: "sent you a friend request.",
     });
+    const io = req.app.get('io');  // Ensure 'io' is set on your app
 
-    const s=await User.findById({ _id: friend });
-    const socket = s.socketid;
-    io.to(socket).emit("notification", {
-      message: req.session.user.fullname + "sent you a friend request.",
-    })
+    io.to(friend).emit('message', {
+      text: `${req.session.user.fullname} sent you a friend request.`,
+    });
+
 
     // Respond with success
     res.status(200).json({ message: "Friend request sent successfully." });

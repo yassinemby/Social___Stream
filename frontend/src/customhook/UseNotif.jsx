@@ -1,56 +1,77 @@
-// useNotif.js
-import { useEffect } from 'react';
-import io from 'socket.io-client';
-import { ToastContainer, toast, Bounce } from 'react-toastify';
+import React, { useEffect, useRef } from 'react';
+import { io } from 'socket.io-client';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';  // Import useNavigate
 
-const socket = io('http://localhost:5000'); // Connect to the Socket.IO server
+// Initialize socket outside component to reuse connection across components
+const socket = io("http://localhost:5000");
 
-const UseNotif = () => {
-  const navigate = useNavigate(); // Initialize navigate
+export default function UseNotif({ id, user }) {
+    const roomIdRef = useRef(id); // Keep track of the current room
+    const navigate = useNavigate(); // Create navigate function
 
-  useEffect(() => {
-    // Listen for notification events from the server
-    socket.on('notification', (data) => {
-      // Display the notification using react-toastify
-      toast(`${data.message}`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        transition: Bounce,
-        onClick: () => navigate('/notifications'), // Navigate on toast click
-      });
-    });
+    useEffect(() => {
+        // Function to emit 'join' event
+        const joinRoom = () => {
+            if (roomIdRef.current !== id) {
+                socket.emit('leave', { room: roomIdRef.current, user: user });
+                roomIdRef.current = id; // Update the current room reference
+            }
+            socket.emit('join', { room: id, user: user });
+            console.log(`Joined room ${id}`);
+        };
 
-    // Cleanup the socket listener on unmount
-    return () => {
-      socket.off('notification');
-    };
-  }, [navigate]);
+        // Join the room when the component mounts
+        joinRoom();
 
-  return (
-    <>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        transition={Bounce}
-      />
-    </>
-  );
-};
+        // Set up the message listener
+        const handleMessage = (msg) => {
+            if (msg && msg.text) {
+                console.log("Received message:", msg);
+                toast.success(msg.text, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    theme: "light",
+                    onClick: () => navigate('/notifications')  // Navigate on toast click
+                });
+            } else {
+                console.warn("Received message without text:", msg);
+            }
+        };
 
-export default UseNotif;
+        // Listen for 'message' event from the server
+        socket.on('message', handleMessage);
+
+        // Rejoin the room on reconnection
+        socket.on('reconnect', () => {
+            console.log('Reconnected, joining room again...');
+            joinRoom(); // Rejoin the room after reconnecting
+        });
+
+        // Check if the socket is connected periodically
+        const interval = setInterval(() => {
+            if (!socket.connected) {
+                console.log('Socket disconnected, attempting to reconnect...');
+                socket.connect(); // Attempt to reconnect if disconnected
+            }
+        }, 5000); // Check every 5 seconds
+
+        // Cleanup function to remove the listeners when unmounted
+        return () => {
+            socket.off('message', handleMessage);
+            socket.off('reconnect');
+            clearInterval(interval);
+        };
+    }, [id, user, navigate]); // Dependency array includes `navigate`
+
+    return (
+        <div>
+            <ToastContainer />
+        </div>
+    );
+}
