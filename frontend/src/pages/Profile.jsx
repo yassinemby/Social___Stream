@@ -10,7 +10,6 @@ import Viewimg from "./Viewimg";
 import Lottie from "lottie-react";
 import loadingAnimation from "../assets/loading.json";
 import ViewPosts from "./ViewPosts";
-import UseNotif from '../customhook/UseNotif';
 
 
 export default function Profile() {
@@ -89,8 +88,6 @@ export default function Profile() {
   }, [id]);
 
   return (
-    <>
-    <UseNotif id={id} user={user} />
 
     <div className="profile">
       {isLoading ? (
@@ -135,6 +132,5 @@ export default function Profile() {
 
       <Nav />
     </div>
-    </>
   );
 }
