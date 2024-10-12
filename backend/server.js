@@ -85,14 +85,7 @@ const socketIo = require('socket.io');
 const server = http.createServer(app);
 
 
-const io = socketIo(server, {
-  cors: {
-    origin: "http://localhost:5000", 
-    methods: ["GET", "POST"]
-  }
-});
-
-app.use(cors());
+const io = socketIo(server);
 app.set('io', io);
 
 
