@@ -2,10 +2,11 @@ import React, { useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';  // Import useNavigate
+import { useNavigate } from 'react-router-dom';  
 
 // Initialize socket outside component to reuse connection across components
-const socket = io("https://social-stream-nf3v.onrender.com", {   transports: ["websocket", "polling"] });
+const socket = io("http://localhost:5000", { transports: ["websocket", "polling"] });
+
 export default function UseNotif({ id, user }) {
     const roomIdRef = useRef(id); // Keep track of the current room
     const navigate = useNavigate(); // Create navigate function
@@ -43,8 +44,28 @@ export default function UseNotif({ id, user }) {
             }
         };
 
-        // Listen for 'message' event from the server
+        // Set up the chat listener
+        const handleChat = ({ text, receiver }) => {
+            if (text && receiver) {
+                console.log("Received chat message:", { text, receiver });
+                toast.info(text, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    theme: "light",
+                    onClick: () => navigate(`/chatting/${receiver}`)  // Redirect to the chat page on toast click
+                });
+            } else {
+                console.warn("Received chat message without text or receiver:", { text, receiver });
+            }
+        };
+
+        // Listen for 'message' and 'chat' events from the server
         socket.on('message', handleMessage);
+        socket.on('chat', handleChat);
 
         // Rejoin the room on reconnection
         socket.on('reconnect', () => {
@@ -63,6 +84,7 @@ export default function UseNotif({ id, user }) {
         // Cleanup function to remove the listeners when unmounted
         return () => {
             socket.off('message', handleMessage);
+            socket.off('chat', handleChat); // Remove chat listener
             socket.off('reconnect');
             clearInterval(interval);
         };

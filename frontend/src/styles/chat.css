@@ -38,39 +38,41 @@
   max-width: 80%;
   padding: 1em;
   border-inline: var(--t) solid #0000;
-  border-radius: calc(var(--r) + var(--t))/var(--r);
+  border-radius: calc(var(--r) + var(--t)) / var(--r);
   mask: 
-      radial-gradient(100% 100% at var(--_p) 0,#0000 99%,#000 102%) 
-      var(--_p) 100%/var(--t) var(--t) no-repeat,
+      radial-gradient(100% 100% at var(--_p) 0, #0000 99%, #000 102%) 
+      var(--_p) 100% / var(--t) var(--t) no-repeat,
       linear-gradient(#000 0 0) padding-box;
-  background: linear-gradient(135deg, #FE6D00, #1384C5) border-box;
+  background: linear-gradient(135deg, #1384C5, #FE6D00) border-box; /* Default gradient */
   color: #fff;
-  transition: background 0.3s ease; /* Smooth transition */
+  transition: background 0.3s ease;
 }
 
 .chat .bubble:hover {
-  background: linear-gradient(135deg, #FF8C00, #00BFFF); /* Slightly change gradient on hover */
+  background: linear-gradient(135deg, #00BFFF, #FF8C00);
 }
 
 .chat .left {
   --_p: 0;
   border-bottom-left-radius: 0 0;
   place-self: start;
+  background: linear-gradient(135deg, #28a745, #82e383); /* Green for receiver */
 }
 
 .chat .right {
   --_p: 100%;
   border-bottom-right-radius: 0 0;
   place-self: end;
+  background: linear-gradient(135deg, #007bff, #00b3ff); /* Blue for sender */
 }
 
 .chat .message-content {
-  font-size: 1rem; /* Set font size in rem */
+  font-size: 1rem;
 }
 
 .chat .message-time {
   font-size: 12px;
-  color: #999;
+  color: #ffffff;
   margin-top: 5px;
   text-align: right;
 }
@@ -80,10 +82,10 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between; /* Ensure space between input and button */
+  justify-content: space-between;
   border-top: 1px solid #ddd;
   background-color: #fff;
-  border-radius: 7px; 
+  border-radius: 7px;
   padding: 10px;
   margin-bottom: 5vw;
 }
@@ -97,7 +99,7 @@
 .chat input[type="text"] {
   width: 100%;
   padding: 10px;
-  font-size: 1rem; /* Set font size in rem */
+  font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 7px;
   box-sizing: border-box;
@@ -105,7 +107,7 @@
 
 .chat input[type="text"]:focus {
   outline: none;
-  border: 2px solid #007bff; /* Highlight border on focus */
+  border: 2px solid #007bff;
 }
 
 .chat button[type="submit"] {
@@ -115,7 +117,7 @@
   border: none;
   border-radius: 7px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s; /* Add transform transition */
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .chat button[type="submit"]:hover {
@@ -123,7 +125,7 @@
 }
 
 .chat button[type="submit"]:active {
-  transform: scale(0.95); /* Slightly scale down on click */
+  transform: scale(0.95);
 }
 
 body {
@@ -189,11 +191,11 @@ body {
 }
 
 .colord .status-circle.online {
-  border: 3px solid #3cb371; /* Green border for online */
+  border: 3px solid #3cb371;
 }
 
 .colord .status-circle.offline {
-  border: 3px solid #ff6347; /* Red border for offline */
+  border: 3px solid #ff6347;
 }
 
 @media only screen and (max-width: 600px) {
@@ -219,17 +221,17 @@ body {
       max-width: 90%; 
   }
   .chat .message-content {
-      font-size: 14px; 
+      font-size: 14px;
   }
   .chat .message-time {
-      font-size: 10px; 
+      font-size: 10px;
+      color: white;
   }
   .chat .input form {
       flex-direction: row;
       justify-content: flex-end;
       margin-bottom: 17vw;
   }
-
 }
 
 @media only screen and (max-width: 600px) {

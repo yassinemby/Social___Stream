@@ -628,7 +628,7 @@ app.get("/api/chatting/:id", isAuth, async (req, res) => {
     });
 
     const r = await User.findById(id); // Find the user by the ID
-
+ 
     // Send the collected messages to the client
     res.status(200).json({ you, friend, r });
   } catch (err) {
@@ -648,6 +648,11 @@ app.post("/api/chat", isAuth, async (req, res) => {
       message: text,
     });
     await newMessage.save();
+    const io = req.app.get('io');
+    io.to(receiver.toString()).emit('chat', {
+      text: `${req.session.user.fullname} sent you a message`,
+      receiver:req.session.user._id.toString()
+    });
     res.status(200).json({ mssg: "Message sent" });
   } catch (error) {
     console.log(error);
