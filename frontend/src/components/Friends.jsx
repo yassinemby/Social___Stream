@@ -2,19 +2,18 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/friends.css";
 import Nav from "./Nav";
-import { toast, ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate, useLocation } from "react-router-dom"; // Import useLocation
-import Lottie from "lottie-react";
-import loadingAnimation from "../assets/loading.json";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Bounce } from "react-toastify"; // Import Bounce for transitions
 
 export default function Friends() {
   const navigate = useNavigate();
-  const location = useLocation(); // Use useLocation to detect path changes
+  const location = useLocation();
   const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const handleclick = async (id) => {
+  const handleClick = async (id) => {
     try {
       const response = await axios.get(`/api/chat/${id}`, {
         withCredentials: true,
@@ -24,41 +23,76 @@ export default function Friends() {
       }
     } catch (error) {
       console.error("Error starting chat:", error);
-      toast.error("Error starting chat. Please try again.");
+      toast.error("Error starting chat. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
     }
   };
 
   const fetchFriends = async () => {
     setLoading(true);
+    const toastId = toast.loading("Loading friends...", {
+      position: "top-right",
+      autoClose: false,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark",
+    });
+
     try {
       const response = await axios.get("/api/friends", {
         withCredentials: true,
       });
-      console.log("Fetched friends:", response.data); // Log the fetched friends
       if (response.status === 200) {
         setFriends(response.data);
+        toast.success("Friends loaded successfully.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce, // Keep original toast settings
+        });
       }
     } catch (error) {
       console.error("Failed to load friends:", error);
-      toast.error("Failed to load friends. Please refresh the page.");
+      toast.error("Failed to load friends. Please refresh the page.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+        transition: Bounce, // Keep original toast settings
+      });
     } finally {
+      toast.dismiss(toastId); // Dismiss loading toast
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchFriends(); // Fetch friends when component mounts or location changes
-  }, [location]); // Adding location as a dependency
+    fetchFriends();
+  }, [location]);
 
   return (
     <>
       <h2 className="title">Choose your friend</h2>
-
       <div className="friends">
         {loading ? (
-          <div className="loading-indicator">
-            <Lottie animationData={loadingAnimation} loop />
-          </div>
+          <p>Loading friends...</p> // Optional loading state message
         ) : friends.length === 0 ? (
           <p>No friends available.</p>
         ) : (
@@ -68,7 +102,7 @@ export default function Friends() {
                 friend.status === "online" ? "online" : "offline"
               }`}
               key={friend._id}
-              onClick={() => handleclick(friend._id)}
+              onClick={() => handleClick(friend._id)}
               style={{ cursor: "pointer" }}
             >
               <div
@@ -99,7 +133,19 @@ export default function Friends() {
         )}
       </div>
       <Nav />
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Bounce} // Keep the transition as Bounce
+      />
     </>
   );
 }

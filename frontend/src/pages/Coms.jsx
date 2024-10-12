@@ -2,7 +2,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "../styles/Coms.css";
-
+import { useNavigate } from 'react-router-dom';
 const Lottie = lazy(() => import('lottie-react')); // Lazy load Lottie
 import loadingAnimation from "../assets/loading.json";
 
@@ -10,6 +10,7 @@ export default function Coms({ user, post, handleCommentAdded, closeView }) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [commentInput, setCommentInput] = useState('');
+    const navigate = useNavigate();
 
     // Handle new comment submission
     const handleComment = async () => {
@@ -64,8 +65,8 @@ export default function Coms({ user, post, handleCommentAdded, closeView }) {
                     </div>
                 ) : (
                     data.map((comment, index) => (
-                        <div className='post' key={index}>
-                            <img src={comment.user.profilepic.url} alt="User Profile" />
+                        <div className='post' key={index} onClick={() => navigate(`/DisplayProfile/${comment.user._id}`)}>
+                            <img src={comment.user.profilepic.url} alt="User Profile"/>
                             <div>
                                 <h5>{comment.user.fullname}</h5>
                                 <h3>{new Date(comment.date).toLocaleString()}</h3>

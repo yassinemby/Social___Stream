@@ -79,3 +79,30 @@ display: flex;
 flex-direction: row;
 align-items: center;
 }
+
+@media (max-width: 600px) {
+  .suggestions {
+    padding: 10px;
+  }
+  .suggestions div {
+    padding: 10px;
+    font-size: 14px;
+  }
+  .suggestions img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+
+@media only screen and (min-width: 600px) {
+  .friendreq {
+    width: 40vw;
+    margin: 0 auto;
+    padding: 20px;
+  background-color: #08b7ec;;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+}

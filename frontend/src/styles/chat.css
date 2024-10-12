@@ -1,8 +1,8 @@
 .chat {
   display: flex;
   flex-direction: column;
-  height: 70vh;
-  margin-bottom: 20vw;
+  height: 70vh; /* Keep the height as it is */
+  margin-bottom: 10vw;
   width: 90vw;
   max-width: 600px;
   background-color: #f4f4f4;
@@ -10,12 +10,20 @@
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  margin-top: 5vw;
+  margin-top: 4vw;
+
+}
+
+html,
+body {
+  overflow: hidden;
+  padding: 0;
 }
 
 .chat .messages {
-  flex: 1;
-  overflow-y: auto;
+  flex: 1; /* Keeps it flexible */
+  max-height: 60vh; /* Set a maximum height */
+  overflow-y: auto; /* Enable scrolling */
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -43,7 +51,7 @@
       radial-gradient(100% 100% at var(--_p) 0, #0000 99%, #000 102%) 
       var(--_p) 100% / var(--t) var(--t) no-repeat,
       linear-gradient(#000 0 0) padding-box;
-  background: linear-gradient(135deg, #1384C5, #FE6D00) border-box; /* Default gradient */
+  background: linear-gradient(135deg, #1384C5, #FE6D00); /* Default gradient */
   color: #fff;
   transition: background 0.3s ease;
 }
@@ -88,6 +96,7 @@
   border-radius: 7px;
   padding: 10px;
   margin-bottom: 5vw;
+  
 }
 
 .chat .input form {
@@ -191,29 +200,24 @@ body {
 }
 
 .colord .status-circle.online {
-  border: 3px solid #3cb371;
+  border: 3px solid #3cb371; /* Green for online */
 }
 
 .colord .status-circle.offline {
-  border: 3px solid #ff6347;
+  border: 3px solid #ff6347; /* Red for offline */
 }
 
 @media only screen and (max-width: 600px) {
   .chat {
       width: 95vw;
-  }
-  .chat .input form {
-      flex-direction: column;
-      align-items: stretch;
-      width: 100%;
-  }
-  .chat input[type="text"] {
-      width: calc(100% - 22px);
+      margin-bottom: auto;
+
   }
   .chat button[type="submit"] {
-      width: 10vw;
-      margin-right: 2vw;
+height: fit-content;
+margin-top: 3vw;
   }
+    
 }
 
 @media only screen and (max-width: 400px) {
@@ -227,18 +231,22 @@ body {
       font-size: 10px;
       color: white;
   }
-  .chat .input form {
-      flex-direction: row;
-      justify-content: flex-end;
-      margin-bottom: 17vw;
-  }
+
 }
 
 @media only screen and (max-width: 600px) {
   .chat .input form {
       flex-direction: row;
-      justify-content: flex-end;
-      margin-bottom: 13vw;
+      height: auto;
+      justify-content: space-evenly;
+  }
+  .chat .input{
+      height: 15vw;
+      margin-bottom: 30vw;
+  }
+  .chat .input form input[type="text"] { 
       height: 10vw;
+      width: 70vw;
   }
 }
+

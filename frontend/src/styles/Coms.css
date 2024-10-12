@@ -17,22 +17,20 @@ body {
     background-color: rgba(0, 0, 0, 0.5); /* Dark semi-transparent background */
     backdrop-filter: blur(8px); /* Blurred background effect */
     z-index: 1000; /* Layering above other components */
-
 }
 
 /* Box for posts */
-.coms  .box {
+.coms .box {
     background-color: rgba(255, 255, 255, 0.9); /* White background with slight transparency */
     width: 100%; /* Full width */
     max-width: 600px; /* Max width for responsiveness */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Shadow for depth */
     padding: 20px;
-    margin-bottom: 12vw; /* Space below the box for the input */
+    margin-bottom: 20px; /* Space below the box for the input */
     flex-grow: 1; /* Allow box to take available space */
     overflow-y: auto; /* Enable vertical scrolling within the box */
-    margin-top: 5vw;
-    
+    margin-bottom: 10vw;
 }
 
 /* Individual post */
@@ -47,11 +45,10 @@ body {
     background-color: #1cadc7;
     width: 100vw;
     margin-left: 15%;
-   
 }
 
 /* Headings for posts */
-.coms  .post h2,
+.coms .post h2,
 .post h3 {
     margin: 0;
     font-weight: normal;
@@ -60,7 +57,7 @@ body {
 }
 
 /* Profile image */
-.coms  .post img {
+.coms .post img {
     width: 50px; /* Fixed width for profile image */
     height: 50px; /* Fixed height for profile image */
     border-radius: 50%; /* Circular image */
@@ -78,13 +75,13 @@ body {
     border-radius: 10px; /* Rounded corners */
     padding: 10px; /* Padding for the input area */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Shadow for input area */
-    width: 37vw;
-    margin: 0 auto;
-    margin-bottom: 4vw;
+    width: 37vw; /* Adjust width as necessary */
+    margin: 0 auto; /* Center the input area */
+    margin-bottom: 4vw; /* Increased margin below the input area */
 }
 
 /* Input field */
-.coms  .input input {
+.coms .input input {
     flex: 1; /* Allow input to grow */
     padding: 10px; /* Padding for input */
     border: 1px solid #ccc; /* Border for input */
@@ -93,7 +90,7 @@ body {
 }
 
 /* Button */
-.coms  .input button {
+.coms .input button {
     padding: 10px 20px; /* Padding for button */
     margin-left: 10px; /* Space between input and button */
     border: none; /* No border */
@@ -106,12 +103,12 @@ body {
 }
 
 /* Button hover effect */
-.coms  .input button:hover {
+.coms .input button:hover {
     background-color: #1cadc7; /* Darker shade on hover */
 }
 
 /* Body of the post */
-.coms  .post .body {
+.coms .post .body {
     flex: 1; /* Allow post body to grow */
     margin-right: 10px; /* Space between profile image and post body */
     font-size: 1rem; /* Font size for post body text */
@@ -120,7 +117,11 @@ body {
 
 /* Media queries for responsiveness */
 @media (max-width: 600px) {
-    .coms .post{
+
+    .coms .box {
+        margin-bottom: 43vw; /* Adjust margin for small screens */
+    }
+    .coms .post {
         width: 90vw;
         left: 0;
         right: 0;

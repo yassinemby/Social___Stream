@@ -18,6 +18,7 @@
 /* For Firefox */
 .notifications {
   scrollbar-width: none; /* Hide scrollbar */
+  width: -webkit-fill-available;
 }
 
 
@@ -112,6 +113,5 @@
   .notifications {
     margin: 3vw;
     margin-bottom: 20vw;
-    margin-top: 30vw;
   }
 }

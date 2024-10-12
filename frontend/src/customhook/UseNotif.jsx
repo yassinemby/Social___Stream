@@ -3,7 +3,7 @@ import { io } from 'socket.io-client';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';  
-
+//https://social-stream-nf3v.onrender.com
 // Initialize socket outside component to reuse connection across components
 const socket = io("https://social-stream-nf3v.onrender.com", { transports: ["websocket", "polling"] });
 

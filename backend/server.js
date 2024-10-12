@@ -85,6 +85,7 @@ const socketIo = require('socket.io');
 const server = http.createServer(app);
 
 
+
 const io = socketIo(server, {
   cors: {
     origin: [
@@ -994,6 +995,25 @@ app.get("/api/friendreq/:value", isAuth, async (req, res) => {
   }
 });
 
+app.patch('/api/update', isAuth, async (req, res) => {
+  const id = req.session.user._id;
+  const formData =req.body;
+  //console.log(formData)
+  try{
+    const result = await cloudinary.uploader.upload(formData.image, {
+      folder: "user-avatar",
+      allowed_formats: ["jpg", "png", "ico", "svg", "webp", "jpeg"],
+    });
+
+    const response= await User.findOneAndUpdate({ _id: id }, { profilepic:{public_id: result.public_id, url: result.secure_url} });
+if (response) {
+  res.status(200).json({ message: "Profile picture updated successfully" });
+} 
+  }catch(err){
+    console.log(err);
+    res.status(500).json({ message: "Failed to update profile picture" });
+  }
+})
 
 
 

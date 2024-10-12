@@ -10,7 +10,7 @@ import Viewimg from "./Viewimg";
 import Lottie from "lottie-react";
 import loadingAnimation from "../assets/loading.json";
 import ViewPosts from "./ViewPosts";
-
+import EditViewImg from "../components/EditViewImg";
 
 export default function Profile() {
   const [pic, setPic] = useState(null);
@@ -128,7 +128,7 @@ export default function Profile() {
         </div>
       )}
 
-      {imgClicked && <Viewimg pic={pic} closeView={closeView} />}
+      {imgClicked && <EditViewImg pic={pic} closeView={closeView} />}
 
       <Nav />
     </div>
