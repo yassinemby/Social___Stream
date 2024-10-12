@@ -94,7 +94,8 @@ const io = socketIo(server, {
     ],
     methods: ["GET", "POST"],
     credentials: true
-  }
+  },
+  transports: ["websocket", "polling"],
 });
 
 app.use(cors());
