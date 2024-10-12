@@ -432,7 +432,7 @@ app.get("/api/logout", isAuth, async (req, res) => {
       return res.status(500).send("Erreur lors de la déconnexion");
     }
 
-    const user = await User.findByIdAndUpdate(id, { status: "offline" });
+    const user = await User.findByIdAndUpdate(id, { status: "offline" ,lastActive: Date.now()});
    
     res.clearCookie("connect.sid");
     res.status(200).json({ message: "Deconnexion reussie" });
