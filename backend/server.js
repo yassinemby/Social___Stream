@@ -87,7 +87,11 @@ const server = http.createServer(app);
 
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:5173", 
+    origin: [
+      "http://localhost:5000",
+      "http://localhost:5173",
+      "https://social-stream-nf3v.onrender.com",
+    ],
     methods: ["GET", "POST"],
     credentials: true
   }
