@@ -10,6 +10,8 @@ import Viewimg from "./Viewimg";
 import Lottie from "lottie-react";
 import loadingAnimation from "../assets/loading.json";
 import ViewPosts from "./ViewPosts";
+import UseNotif from '../customhook/UseNotif';
+
 
 export default function Profile() {
   const [pic, setPic] = useState(null);
@@ -22,6 +24,8 @@ export default function Profile() {
   const [imgClicked, setImgClicked] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [postClicked, setPostClicked] = useState(false);
+  const [user, setUser] = useState(null);
+
 
   const handleFollowers = () => {
     setIsActive(true);  // Open followers view
@@ -55,6 +59,7 @@ export default function Profile() {
       const res = await axios.get("/api/getid", { withCredentials: true });
       if (res.status === 200) {
         setId(res.data.id);
+        setUser(res.data.user);
       }
     } catch (err) {
       console.error("Error getting ID:", err);
@@ -84,6 +89,9 @@ export default function Profile() {
   }, [id]);
 
   return (
+    <>
+    <UseNotif id={id} user={user} />
+
     <div className="profile">
       {isLoading ? (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
@@ -127,5 +135,6 @@ export default function Profile() {
 
       <Nav />
     </div>
+    </>
   );
 }
