@@ -4,7 +4,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Bounce } from 'react-toastify';
-import "../components/c-s/DeletePost.css";
+import "../components/c-s/DEletePost.css"
 
 export default function DeletePost({ post, closeView3 }) {
   const navigate = useNavigate();
