@@ -10,7 +10,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 1500;
   animation: fadeIn 0.5s ease-in-out; /* Fade-in effect */
 }
 
@@ -28,6 +28,7 @@
   align-items: center;
   min-height: 400px; /* Increased height for better usability */
   transition: transform 0.3s; /* Smooth scale transition */
+  margin-left: 30vw;
 }
 
 .imgupdate:hover {
@@ -110,11 +111,13 @@
   .editimg {
       flex-direction: column;
       align-items: center;
+
   }
 
   .imgupdate {
       width: 80vw; /* Responsive width for mobile */
       padding: 25px; /* Adjusted padding for smaller screens */
+      margin-left: 0;
   }
 
   .imgupdate h1 {
@@ -123,5 +126,11 @@
 
   .file-upload {
       width: 100%; /* Full width for file upload area */
+  }
+}
+@media only screen and (min-width: 600px) {
+  .imgupdate {
+      position: absolute;
+      margin-right: 30vw;
   }
 }

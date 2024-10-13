@@ -74,6 +74,10 @@ export default function Home() {
     }
   };
 
+  const closeViewC = () => {
+    setIsClick(false);
+  };
+
   useEffect(() => {
     getId();
     fetchPosts();
@@ -122,7 +126,7 @@ export default function Home() {
           </div>
         ))}
       </div>
-      {isClick && <Coms user={user} post={post._id} handleCommentAdded={handleCommentAdded} closeView={() => setIsClick(false)} />}
+      {isClick && <Coms user={user} post={post._id} handleCommentAdded={handleCommentAdded} closeViewC={closeViewC} />}
       <Nav />
     </div>
     </>

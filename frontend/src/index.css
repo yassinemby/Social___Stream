@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-image: url("./assets/background.png");
+  background-image: url("./assets/360_F_244873590_a69hjCnsOjGfNRgzuol3N8C0cLDd4gZV.jpg");
   background-size: cover;
 
   width: 100vw;
@@ -23,8 +23,8 @@
 
 @media screen and (max-width: 600px) {
   .app {
-    background-color:#84dcff;
-    background-image: none;
+    background-image: url("./assets/360_F_244873590_a69hjCnsOjGfNRgzuol3N8C0cLDd4gZV.jpg");
+    background-position: center;
   }
   
 }

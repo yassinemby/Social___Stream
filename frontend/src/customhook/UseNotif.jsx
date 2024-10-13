@@ -24,6 +24,7 @@ export default function UseNotif({ id, user }) {
 
         // Join the room when the component mounts
         joinRoom();
+        
 
         // Set up the message listener
         const handleMessage = (msg) => {

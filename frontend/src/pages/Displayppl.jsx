@@ -101,6 +101,9 @@ export default function Displayppl() {
       toast.error("Failed to unfollow the user."); 
     }
   };
+  const closeView3 = () => {
+    setImgClicked(false);
+  };
 
   useEffect(() => {
     fetchProfile();
@@ -155,7 +158,7 @@ export default function Displayppl() {
         </div>
       )}
 
-      {imgClicked && <Viewimg pic={pic} closeView={closeView} />}
+      {imgClicked && <Viewimg pic={pic} closeView3={closeView3} />}
       <Nav />
     </div>
   );

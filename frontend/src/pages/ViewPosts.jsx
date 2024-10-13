@@ -152,7 +152,7 @@ export default function ViewPosts({idu, closeView ,fromprofile}) {
           </div>
         ))}
       </div>
-      {isClick && selectedPost && <Coms user={user} post={selectedPost} handleCommentAdded={fetchPosts} closeView={() => setIsClick(false)} />}
+      {isClick && selectedPost && <Coms user={user} post={selectedPost} handleCommentAdded={fetchPosts} closeViewC={() => setIsClick(false)} />}
       { editclicked && <EditPost post={selectedPost} closeView2={closeView2} />}
     { deleteclicked && <DeletePost post={selectedPost} closeView3={closeView3} />}
 

@@ -26,16 +26,10 @@ font-family:serif;
     max-width: 500px;
     text-align: center;
     animation: slide-in 0.4s ease;
-    position: relative;
+    position: fixed;
   }
   
-  /* Responsive design */
-  @media (max-width: 768px) {
-    .editpost form {
-      width: 90%; /* Adjust form width for smaller screens */
-      padding: 1.5rem;
-    }
-  }
+
   
   /* Input fields styling */
   .editpost input[type="text"], .editpost input[type="file"] {
@@ -110,4 +104,8 @@ font-family:serif;
       opacity: 1;
     }
   }
+  
+
+  
+
   

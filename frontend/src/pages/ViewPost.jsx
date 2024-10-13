@@ -123,7 +123,7 @@ export default function ViewPosts({idu, closeView }) {
                     </div>
                 </div>
             </div>
-            {isClick && selectedPost && <Coms user={user} post={selectedPost} handleCommentAdded={fetchPosts} closeView={() => setIsClick(false)} />}
+            {isClick && selectedPost && <Coms user={user} post={selectedPost} handleCommentAdded={fetchPosts} closeViewC={() => setIsClick(false)} />}
         </div>
         <Nav/>
         </>

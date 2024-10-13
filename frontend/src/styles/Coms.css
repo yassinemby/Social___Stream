@@ -27,7 +27,7 @@ body {
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Shadow for depth */
     padding: 20px;
-    margin-bottom: 20px; /* Space below the box for the input */
+    margin-top: 5vw; /* Space below the box for the input */
     flex-grow: 1; /* Allow box to take available space */
     overflow-y: auto; /* Enable vertical scrolling within the box */
     margin-bottom: 10vw;

@@ -27,7 +27,8 @@ body {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-image: url("../assets//whatsapp-chat-doodle-patterns-jyd5uvep2fdwjl97.jpg");
+  
   border-radius: 10px;
 }
 
