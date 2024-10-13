@@ -71,6 +71,12 @@ export default function Profile() {
     setImgClicked(true);  // Open image view
   };
 
+  const closeViewim = () => {
+    setImgClicked(false); // Close image view
+
+  };
+
+
   const closeView = () => {
     setImgClicked(false); // Close image view
     setIsActive(false);   // Close followers view
@@ -87,6 +93,7 @@ export default function Profile() {
    
   }, [id]);
 
+
   return (
 
     <div className="profile">
@@ -99,7 +106,7 @@ export default function Profile() {
           {isActive ? ( // Show Followers component if active
             <Followers id={id} closeView={closeView} />
           ) : postClicked ? ( // Show Posts component if postClicked is true
-            <ViewPosts idu={id} closeView={closeView} />
+            <ViewPosts idu={id} closeView={closeView} fromprofile={true}/>
           ) : (
             <div className="color">
               {online === "online" ? (
@@ -115,7 +122,7 @@ export default function Profile() {
               />
             </div>
           )}
-          <h3>{name}</h3>
+          <h4>{name}</h4>
           <div className="profile-info">
             <a className="p" onClick={handlePosts}>
               <h3>{nposts} posts</h3>
@@ -128,7 +135,7 @@ export default function Profile() {
         </div>
       )}
 
-      {imgClicked && <EditViewImg pic={pic} closeView={closeView} />}
+      {imgClicked && <EditViewImg pic={pic} closeViewim={closeViewim} />}
 
       <Nav />
     </div>

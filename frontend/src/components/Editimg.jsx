@@ -6,24 +6,24 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Bounce } from 'react-toastify';
 
-export default function Editimg({ closeView }) {
+export default function Editimg({ closeView4 }) {
   const [image, setImage] = useState(null);
   const [imgPreview, setImgPreview] = useState(null);
-  const [loading, setLoading] = useState(false);  // State to track loading
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleClose = (e) => {
     if (e.target.classList.contains('editimg')) {
-      closeView(); 
+      closeView4();
     }
   };
 
   const handleUpdate = async () => {
     try {
-      setLoading(true);  // Start loading
+      setLoading(true);
 
       const formData = new FormData();
-      formData.append('image', imgPreview);
+      formData.append('image', imgPreview); // Ensure we append the image file
 
       const res = await axios.patch('/api/update', formData, {
         withCredentials: true,
@@ -47,17 +47,17 @@ export default function Editimg({ closeView }) {
 
         navigate('/profile');
         setTimeout(() => {
-          window.location.reload(); // Force reload after navigation
+          window.location.reload();
         }, 1000);
       }
     } catch (err) {
       console.error(err);
       toast.error('Failed to update the image. Please try again.', {
-        position: toast.POSITION.TOP_RIGHT,
+        position: "top-right", // Ensure this is correct
         autoClose: 3000,
       });
     } finally {
-      setLoading(false);  // Stop loading after response
+      setLoading(false);
     }
   };
 
@@ -79,12 +79,20 @@ export default function Editimg({ closeView }) {
     <div className='editimg' onClick={handleClose}>
       <div className="imgupdate">
         <h1>Edit your image</h1>
-        <input type="file" name="image" id="image" onChange={handleImageUpload} required />
-        {imgPreview && <img src={imgPreview} alt="Profile Preview" style={{ width: '100px', height: '100px' }} />}
+        
+        {/* Custom file upload area */}
+        <label className="file-upload">
+          <input type="file" accept="image/*" onChange={handleImageUpload} required />
+          <span>{image ? 'Change Image' : 'Click or Drag to Upload Image'}</span>
+        </label>
+        
+        {imgPreview && (
+          <img src={imgPreview} alt="Profile Preview" style={{ width: '100px', height: '100px', margin: '20px 0' }} />
+        )}
         
         {/* Update button: Disable and show loading state */}
         <button type="submit" onClick={handleUpdate} disabled={loading}>
-          {loading ? 'Updating...' : 'Edit'} {/* Show loading text when loading */}
+          {loading ? 'Updating...' : 'Edit'}
         </button>
       </div>
 

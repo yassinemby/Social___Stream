@@ -7,14 +7,19 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Coms from './Coms';
 import { useNavigate } from 'react-router-dom';
+import EditPost from "../components/EditPost"
+import DeletePost from "../components/DeletePost"
+import { Bounce } from "react-toastify"; // Import Bounce for transitions
 
-export default function ViewPosts({idu, closeView }) {
+export default function ViewPosts({idu, closeView ,fromprofile}) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [id, setId] = useState("");
   const [user, setUser] = useState(null);
   const [isClick, setIsClick] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null); // Changed to store selected post
+  const [editclicked, setEditclicked] = useState(false);
+  const [deleteclicked, setDeleteclicked] = useState(false);
 
   const navigate = useNavigate();
 
@@ -72,6 +77,33 @@ export default function ViewPosts({idu, closeView }) {
     }
   };
 
+
+  const closeView2 = () => {
+    setEditclicked(false);
+  };
+
+  const closeView3 = () => {
+    setDeleteclicked(false);
+  };
+
+
+  const handleedit = (post) => {
+    console.log('edit',post);
+    setSelectedPost(post);
+    setEditclicked(true);
+    // Your edit functionality here
+  };
+
+  const handledelete = (post) => {
+    console.log('delete',post);
+    setSelectedPost(post);
+    setDeleteclicked(true);
+    // Your delete functionality here
+  };
+
+  
+
+
   if (loading) {
     return <div>Loading...</div>; // You can replace this with your loading animation
   }
@@ -87,6 +119,13 @@ export default function ViewPosts({idu, closeView }) {
         {posts.map((post) => (
           <div className="post" key={post._id}>
             <div className="info">
+              {fromprofile&&
+                 <div className="ed">
+                 <button onClick={() => handleedit(post)}>Edit</button>
+                 <button onClick={() => handledelete(post)} style={{backgroundColor:"red"}}>Delete</button>
+               </div>
+              }
+             
               <div className="user" >
                 {post.user.profilepic && <img src={post.user.profilepic.url} alt="Profile" />}
                 <span onClick={() => navig(post.user._id)}>{post.user.fullname}</span>
@@ -114,6 +153,10 @@ export default function ViewPosts({idu, closeView }) {
         ))}
       </div>
       {isClick && selectedPost && <Coms user={user} post={selectedPost} handleCommentAdded={fetchPosts} closeView={() => setIsClick(false)} />}
+      { editclicked && <EditPost post={selectedPost} closeView2={closeView2} />}
+    { deleteclicked && <DeletePost post={selectedPost} closeView3={closeView3} />}
+
+
     </div>
   );
 }

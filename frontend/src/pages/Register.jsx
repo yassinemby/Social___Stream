@@ -117,9 +117,13 @@ export default function Register() {
         <div className='register'>
             <form onSubmit={handleSubmit}>
                 <h1>Register</h1>
-                <label>Profile Picture</label>
-                <input type="file" accept="image/*" onChange={handleImageUpload} required />
-                {imgPreview && <img src={imgPreview} alt="Profile Preview" style={{ width: "100px", height: "100px" }} />}
+                
+                {/* Custom File Upload */}
+                <label className="custom-file-upload">
+                    <input type="file" accept="image/*" onChange={handleImageUpload} required />
+                    Upload Profile Picture
+                </label>
+                {imgPreview && <img src={imgPreview} alt="Profile Preview" className="profile-preview" />}
                 
                 <label>Username</label>
                 <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
@@ -135,7 +139,6 @@ export default function Register() {
 
             <a href="/login"><h4>Already have an account? Login</h4></a>
 
-            {/* Toast Notifications with smaller close button */}
             <ToastContainer
                 position="top-center"
                 autoClose={5000}
@@ -146,7 +149,7 @@ export default function Register() {
                     <button
                         onClick={closeToast}
                         style={{
-                            fontSize: "10px", // Smaller button
+                            fontSize: "10px",
                             backgroundColor: "transparent",
                             color: "#fff",
                             border: "none",

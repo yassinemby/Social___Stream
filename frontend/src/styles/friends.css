@@ -94,6 +94,8 @@
     flex-direction: row; /* Stack image and text vertically on mobile */
     align-items: center; /* Center items horizontally on mobile */
     font-family: serif;
+    flex-wrap: wrap;
+
   }
 }
 
@@ -104,6 +106,7 @@
     justify-content: center; /* Center the bubbles horizontally */
     background-color: #cccccc14;
     backdrop-filter: blur(2px);
+
   }
 
   .friend-bubble {

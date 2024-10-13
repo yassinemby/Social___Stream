@@ -1,0 +1,75 @@
+/* Main container for input form */
+.input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.396);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    animation: bounce-in-out 0.5s ease-in-out;
+}
+
+/* Form styles */
+.input form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #63c8fe;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+/* Input field styles */
+.input input {
+    padding: 10px 15px;
+    border: 2px solid #007bff;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 80%; /* Adjust width as needed */
+    transition: border-color 0.3s ease; /* Adding transition for input border */
+}
+
+/* Input field focus effect */
+.input input:focus {
+    border-color: #0056b3; /* Darker blue on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Button styles */
+.input button {
+    background-color: #007bff; /* Primary button color */
+    color: white; /* Button text color */
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s ease; /* Adding transition */
+}
+
+/* Button hover effect */
+.input button:hover {
+    transform: scale(1.1); /* Scale up on hover */
+    background-color: #0056b3; /* Darker button color on hover */
+}
+
+/* Keyframes for animation */
+@keyframes bounce-in-out {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

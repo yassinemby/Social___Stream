@@ -1,69 +1,97 @@
 /* CreatePost.css */
 
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .create form {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 5vw;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .create form h1 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .create form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #555;
-  }
-  
-  .create  form input[type="text"],
-  input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .create  form input[type="text"] {
-    font-size: 16px;
-  }
-  
-  .create form button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .create  form button:hover {
-    background-color: #0056b3;
-  }
-  
-  .create form img {
-    display: block;
-    margin: 20px auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.create {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.create form {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  margin: 5vw 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.create form h1 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.create form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+.create form input[type="text"],
+.create form input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.create form input[type="file"] {
+  padding: 5px;
+  border: 1px dashed #007bff;
+  background-color: #f8f9fa;
+  cursor: pointer;
+}
+
+.create form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.create form button:hover {
+  background-color: #0056b3;
+}
+
+.create .image-preview {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 400px; /* Limit width for larger screens */
+}
+
+.create .image-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.Toastify {
+  margin: 20px auto;
+  max-width: 600px;
+}

@@ -1,0 +1,113 @@
+/* Styling the modal background */
+.editpost {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    animation: fade-in 0.5s ease-in-out;
+  }
+  .editpost h1 {
+color: #000;
+font-family:serif;
+  }
+  /* Card container */
+  .editpost form {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); /* Soft shadow for depth */
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    animation: slide-in 0.4s ease;
+    position: relative;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .editpost form {
+      width: 90%; /* Adjust form width for smaller screens */
+      padding: 1.5rem;
+    }
+  }
+  
+  /* Input fields styling */
+  .editpost input[type="text"], .editpost input[type="file"] {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .editpost input[type="text"]:focus, .editpost input[type="file"]:focus {
+    border-color: #007bff; /* Highlighted border on focus */
+    outline: none;
+  }
+  
+  /* Label styling */
+  .editpost label {
+    display: block;
+    text-align: left;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+    font-size: 1rem;
+  }
+  
+  /* Upload button styling */
+  .editpost button[type="submit"] {
+    background-color: #007bff; /* Primary button color */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+  }
+  
+  .editpost button[type="submit"]:hover {
+    background-color: #0056b3; /* Darker on hover */
+  }
+  
+  /* Image styling */
+  .editpost img {
+    margin-top: 1rem;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  /* Animations */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slide-in {
+    from {
+      transform: translateY(-30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  

@@ -14,6 +14,10 @@ flex-direction: row;
         padding: 1vw;
         border-radius: 3vw;
     }
+    .pic-name h4{
+        font-family: cursive;
+        font-size: larger;
+    }
 
 .pic-name img{
     width: 100px;

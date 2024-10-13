@@ -7,6 +7,7 @@ import Lottie from "lottie-react";
 import loadingAnimation from "../assets/loading.json";
 import Nav from "../components/Nav";
 import { formatDistanceToNow, isValid } from "date-fns";
+import Input from "./Input";
 
 export default function Chat() {
   const [message, setMessage] = useState("");
@@ -15,10 +16,11 @@ export default function Chat() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [user, setUser] = useState({});
-  const [shouldScroll, setShouldScroll] = useState(true); // State to track if we should scroll down
-  const messagesEndRef = useRef(null); // Ref for the end of the messages list
+  const [shouldScroll, setShouldScroll] = useState(true);
+  const messagesEndRef = useRef(null);
   const navigate = useNavigate();
   const id = window.location.pathname.split("/")[2];
+  const [input, setInput] = useState(false);
 
   const fetchMessages = async () => {
     setLoading(true);
@@ -40,6 +42,7 @@ export default function Chat() {
     } catch (error) {
       console.error(error);
       setError("Failed to fetch messages. Please try again.");
+      // Optionally, reset messages or handle specific errors
     } finally {
       setLoading(false);
     }
@@ -48,17 +51,15 @@ export default function Chat() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setsent(true);
-    if (message !== "") {
+    if (message.trim() !== "") {
       const newMessage = {
         receiver: id,
         text: message,
       };
 
       // Optimistically add the message
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "you", message: message, createdAt: new Date() },
-      ]);
+      const optimisticMessage = { sender: "you", message: message, createdAt: new Date() };
+      setMessages((prevMessages) => [...prevMessages, optimisticMessage]);
 
       try {
         const response = await axios.post("/api/chat", newMessage, {
@@ -66,11 +67,11 @@ export default function Chat() {
         });
         if (response.status === 200) {
           setMessage("");
-          fetchMessages(); // This will fetch the updated list of messages
+          fetchMessages(); // Fetch updated messages
         }
       } catch (error) {
         console.error(error);
-        // Handle message send failure, e.g., by reverting the optimistic update
+        // Handle failure
         setMessages((prevMessages) => prevMessages.slice(0, -1)); // Remove last optimistic message
       } finally {
         setsent(false);
@@ -78,28 +79,28 @@ export default function Chat() {
     }
   };
 
-  const handleclick = () => {
+  const handleClick = () => {
     navigate(`/DisplayProfile/${id}`);
+  };
+
+  const closeView = () => {
+    setInput(false);
   };
 
   useEffect(() => {
     fetchMessages();
-    const intervalId = setInterval(fetchMessages, 3000); // Fetch messages every 5 seconds
+    const intervalId = setInterval(fetchMessages, 3000); // Fetch messages every 3 seconds
 
     return () => clearInterval(intervalId); // Cleanup on unmount
   }, [id]);
 
-  // Auto-scroll to the bottom when messages change or when component mounts
   useEffect(() => {
     if (shouldScroll) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages, shouldScroll]); // Depend on messages and shouldScroll
+  }, [messages, shouldScroll]);
 
-  // Refactored status check and date formatting
   const isOnline = user.status === "online";
-
-  // Check if lastActive is valid and exists before formatting
   const lastActiveDate = new Date(user.lastActive);
   const isValidLastActive = isValid(lastActiveDate);
   const lastActiveFormatted = isValidLastActive
@@ -109,7 +110,7 @@ export default function Chat() {
   return (
     <>
       <div className="chat">
-        <div className="chat-user" onClick={handleclick}>
+        <div className="chat-user" onClick={handleClick}>
           <div className="colord">
             <div className={`status-circle ${user.status}`}>
               <img
@@ -120,20 +121,20 @@ export default function Chat() {
             </div>
           </div>
           <h3>{user.fullname}</h3>
-
           <span className={`status-indicator ${isOnline ? "online" : "offline"}`}>
             {isOnline
               ? "Online"
-              : `Offline since ${
-                  isValidLastActive ? lastActiveFormatted : "unknown"
-                }`}
+              : `Offline since ${isValidLastActive ? lastActiveFormatted : "unknown"}`}
           </span>
         </div>
 
-        <div className="messages" onScroll={(e) => {
-          const { scrollTop, scrollHeight, clientHeight } = e.target;
-          setShouldScroll(scrollTop + clientHeight >= scrollHeight); // Check if user scrolled to the bottom
-        }}>
+        <div className="messages" 
+          onClick={() => setInput(true)} 
+          onScroll={(e) => {
+            const { scrollTop, scrollHeight, clientHeight } = e.target;
+            setShouldScroll(scrollTop + clientHeight >= scrollHeight);
+          }}
+        >
           <ul className="messages-list">
             {messages.map((msg, index) => (
               <li
@@ -147,30 +148,24 @@ export default function Chat() {
               </li>
             ))}
           </ul>
-{/*           {loading && (
+          {loading && (
             <div className="loading">
               <Lottie animationData={loadingAnimation} loop />
             </div>
-          )} */}
+          )}
           {error && <div className="error">{error}</div>}
           <div ref={messagesEndRef} /> {/* Ref to the end of the message list for scrolling */}
         </div>
-
-        <div className="input">
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Write a message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <button type="submit">
-              <FontAwesomeIcon icon="fas fa-paper-plane" />
-            </button>
-          </form>
-        </div>
+        {input && 
+          <Input 
+            handleSubmit={handleSubmit} 
+            closeView={closeView} 
+            message={message} 
+            setMessage={setMessage}
+          />
+        }  
       </div>
-      <Nav></Nav>
+      <Nav />
     </>
   );
 }

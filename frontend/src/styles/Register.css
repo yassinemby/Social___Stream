@@ -19,15 +19,15 @@ body {
   width: 100%;
 }
 
-.register h4{
+.register h4 {
   font-size: 20px;
   color: #ffffff;
   margin-bottom: 20px;
   text-align: center;
-  /* Ajouter un peu de marge pour séparer le titre du formulaire */
   margin-top: 20px;
-  font-family:cursive ;
+  font-family: cursive;
 }
+
 .register h1 {
   font-size: 24px;
   margin-bottom: 20px;
@@ -35,17 +35,37 @@ body {
   color: #ffffff;
   font-family: cursive;
 }
+.register form {
+display: flex;
+flex-direction: column;
+align-items: center;
 
+}
 .register form label {
   color: #000000;
 }
 
-.register form input[type="file"] {
-  display: block;
-  margin-bottom: 20px;
+.register form .custom-file-upload {
+  display: inline-block;
+  padding: 10px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #08b7ec;
+  color: #fff;
+  text-align: center;
+  transition: background-color 0.3s ease;
 }
 
-.register form img {
+.register form .custom-file-upload:hover {
+  background-color: #49dbff;
+}
+
+.register form input[type="file"] {
+  display: none; /* Hide default file input */
+}
+
+.register form img.profile-preview {
   display: block;
   max-width: 100%;
   height: auto;
@@ -53,7 +73,8 @@ body {
 }
 
 .register form input[type="text"],
-.register form input[type="password"] {
+.register form input[type="password"],
+.register form input[type="email"] {
   width: calc(100% - 20px);
   padding: 10px;
   margin-bottom: 20px;
@@ -77,7 +98,6 @@ body {
   background-color: #49dbff;
 }
 
-
 @media screen and (max-width: 600px) {
   .register {
     max-width: 80vw;
@@ -88,17 +108,17 @@ body {
   }
   
   .register form button {
-    background-color:#05a3ff ;
+    background-color: #05a3ff;
   }
 
   .register form label {
     color: #ffffff;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-
   }
-  .register form  {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
+
+  .register form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }

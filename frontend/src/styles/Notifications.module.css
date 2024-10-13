@@ -111,7 +111,8 @@
 
 @media only screen and (max-width: 600px) {
   .notifications {
-    margin: 3vw;
-    margin-bottom: 20vw;
+    margin-bottom: 29vw;
+    margin-top: 20vw;
+    height: 165vw;
   }
 }

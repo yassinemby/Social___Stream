@@ -118,7 +118,7 @@ export default function Displayppl() {
           {isActive ? (
             <Followers id={id} closeView={closeView} />
           ) : postClicked ? (
-            <ViewPosts idu={id} closeView={closeView} />
+            <ViewPosts idu={id} closeView={closeView} fromprofile={false} />
           ) : (
             <div className="color">
               <div className={online === "online" ? "online-indicator" : "offline-indicator"}></div>

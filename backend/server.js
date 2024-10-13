@@ -1015,9 +1015,72 @@ if (response) {
   }
 })
 
+app.patch('/api/edit/:id', async (req, res) => {
+  try {
+    const idpost = req.params.id;
+    const formData = req.body;
+    let updateFields = {}; // Object to store updated fields
+
+    // Check if image is included
+    if (formData.image) {
+      // Delete the old image
+      await cloudinary.uploader.destroy(formData.oldimage, {
+        folder: "user-avatar",
+        allowed_formats: ["jpg", "png", "ico", "svg", "webp", "jpeg"],
+      });
+
+      // Upload the new image
+      const result2 = await cloudinary.uploader.upload(formData.image, {
+        folder: "user-avatar",
+        allowed_formats: ["jpg", "png", "ico", "svg", "webp", "jpeg"],
+      });
+
+      // Store the new image URL and public_id in the updateFields
+      updateFields.images = {
+        public_id: result2.public_id,
+        url: result2.secure_url,
+      };
+    }
+
+    // Check for title and description updates
+    if (formData.title) {
+      updateFields.title = formData.title;
+    }
+    if (formData.description) {
+      updateFields.body = formData.description;
+    }
+
+    // Update the post with the collected fields
+    const response = await Post.findOneAndUpdate({ _id: idpost }, updateFields, { new: true });
+
+    if (response) {
+      res.status(200).json({ message: "Post updated successfully", post: response });
+    } else {
+      res.status(404).json({ message: "Post not found" });
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to update post" });
+  }
+});
 
 
-
+app.delete('/api/delete/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const response = await Post.findByIdAndDelete({ _id: id });
+    const response2 = await User.findOneAndUpdate({ _id: req.session.user._id }, { $pull: { posts: id } });
+    if (response && response2) {
+      res.status(200).json({ message: "Post deleted successfully" });
+    } else {
+      res.status(404).json({ message: "Post not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to delete post" });
+  }
+});
 
 
 

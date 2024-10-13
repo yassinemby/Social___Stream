@@ -1,0 +1,118 @@
+/* Stylish and sleek delete post modal */
+.deletepost {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Vertically center the content */
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85); /* Dark semi-transparent overlay */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    color: #fff;
+    overflow-y: auto;
+    animation: slide-down 0.6s ease-in-out; /* Smooth slide down entrance */
+    backdrop-filter: blur(5px); /* Subtle background blur for a modern effect */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Adding box-shadow for a floating card effect */
+.deletepost-content {
+    background-color: #1e1e1e; /* Sleek dark background for content */
+    padding: 40px;
+    border-radius: 10px; /* Rounded corners for a modern touch */
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5); /* Elevated shadow effect */
+    max-width: 600px;
+    width: 100%;
+    position: relative;
+    text-align: center; /* Center the text content */
+}
+
+/* Close button style */
+.deletepost-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.deletepost-close:hover {
+    color: #ff5555; /* Red tint on hover */
+}
+
+/* Smooth slide-down entrance animation */
+@keyframes slide-down {
+    0% {
+        opacity: 0;
+        transform: translateY(-20%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Smooth fade-out when modal closes */
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Button container */
+.buttons {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: center; /* Center buttons */
+    margin-top: 20px; /* Add some spacing above */
+}
+
+/* Button styling */
+.delete-btn, .cancel-btn {
+    padding: 10px 20px; /* Padding for buttons */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    margin: 0 10px; /* Space between buttons */
+    cursor: pointer; /* Change cursor to pointer */
+    transition: background-color 0.3s; /* Transition for hover effect */
+    font-size: 16px; /* Font size for buttons */
+}
+
+.delete-btn {
+    background-color: #ff5555; /* Color for delete button */
+    color: white; /* Text color */
+}
+
+.delete-btn:hover {
+    background-color: #ff1a1a; /* Darker red on hover */
+}
+
+.cancel-btn {
+    background-color: #007bff; /* Color for cancel button */
+    color: white; /* Text color */
+}
+
+.cancel-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .deletepost-content {
+        padding: 20px; /* Reduce padding on smaller screens */
+        margin: 3vw;
+    }
+
+    .delete-btn, .cancel-btn {
+        padding: 8px 15px; /* Smaller padding on buttons for smaller screens */
+        font-size: 14px; /* Adjust font size for buttons */
+    }
+}

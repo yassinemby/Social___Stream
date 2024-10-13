@@ -3,24 +3,23 @@ import Viewimg from '../pages/Viewimg';
 import '../components/c-s/EditViewImg.css';
 import Editimg from "../components/Editimg";
 
-export default function EditViewImg({ closeView, pic }) {
+export default function EditViewImg({ closeViewim, pic }) {
   const [imgClicked, setImgClicked] = useState(false);
   const [editClicked, setEditClicked] = useState(false);
 
   const handleClose = (e) => {
     // If the user clicks on the background (not the content), close the view
     if (e.target.classList.contains('editviewimg')) {
-      closeView(); // Call the function to close the view
+      closeViewim(); // Call the function to close the view
     }
   };
 
-  const handleEdit = () => {
-    console.log('edit');
-    // Your edit functionality here
+  const closeView3 = () => {
+    setImgClicked(false);
   };
 
-  const handleImg = () => {
-    console.log('img');
+  const closeView4 = () => {
+    setEditClicked(false);
   };
 
   return (
@@ -30,8 +29,8 @@ export default function EditViewImg({ closeView, pic }) {
         <a onClick={() => setImgClicked(true)}>View your image</a>
       </div>
 
-      {imgClicked && <Viewimg pic={pic} closeView={closeView} />}
-      {editClicked &&  <Editimg closeView={closeView} />}
+      {imgClicked && <Viewimg pic={pic} closeView3={closeView3} />}
+      {editClicked &&  <Editimg closeView4={closeView4} />}
     </div>
   );
 }

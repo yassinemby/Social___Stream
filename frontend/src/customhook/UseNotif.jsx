@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';  
 //https://social-stream-nf3v.onrender.com
 // Initialize socket outside component to reuse connection across components
-const socket = io("https://social-stream-nf3v.onrender.com", { transports: ["websocket", "polling"] });
+const socket = io("http://localhost:5000", { transports: ["websocket", "polling"] });
 
 export default function UseNotif({ id, user }) {
     const roomIdRef = useRef(id); // Keep track of the current room
