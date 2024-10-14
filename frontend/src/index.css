@@ -4,9 +4,9 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-image: url("./assets/360_F_244873590_a69hjCnsOjGfNRgzuol3N8C0cLDd4gZV.jpg");
-  background-size: cover;
-
+/*   background-image: url("./assets/360_F_244873590_a69hjCnsOjGfNRgzuol3N8C0cLDd4gZV.jpg");
+ */  background-size: cover;
+background-color: rgb(29, 29, 29);
   width: 100vw;
   overflow: auto; /* Allow scrolling */
 }
@@ -22,9 +22,9 @@
 }
 
 @media screen and (max-width: 600px) {
-  .app {
+/*   .app {
     background-image: url("./assets/360_F_244873590_a69hjCnsOjGfNRgzuol3N8C0cLDd4gZV.jpg");
     background-position: center;
-  }
+  } */
   
 }

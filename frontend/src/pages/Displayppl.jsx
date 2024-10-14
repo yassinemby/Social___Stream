@@ -8,6 +8,7 @@ import loadingAnimation from "../assets/loading.json";
 import ViewPosts from './ViewPosts';
 import { ToastContainer, toast } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
+import { useNavigate } from 'react-router-dom';
 
 export default function Displayppl() {
   const id = window.location.pathname.split("/")[2];
@@ -25,6 +26,8 @@ export default function Displayppl() {
   const [isfriend, setIsfriend] = useState(false);
   const [isme, setIsme] = useState(false);
   const [mssg, setMssg] = useState("");
+
+  const navigate = useNavigate();
 
   const handleFollowers = () => {
     if (isfriend || isme) {
@@ -127,6 +130,7 @@ export default function Displayppl() {
               <div className={online === "online" ? "online-indicator" : "offline-indicator"}></div>
               {pic ? (
                 <img src={pic} alt="Profile" className="profile-pic" onClick={() => setImgClicked(true)} />
+                
               ) : (
                 <div className="profile-pic-placeholder">No image available</div>
               )}
@@ -145,7 +149,39 @@ export default function Displayppl() {
 
           {!isme && !invitsent ? (
             isfriend ? (
-              <button onClick={handleUnfollow}>Unfollow</button>
+              <><button onClick={handleUnfollow}>Unfollow</button><svg
+              aria-label="Share"
+              className="share-icon"
+              fill="currentColor"
+              height="24"
+              role="img"
+              viewBox="0 0 24 24"
+              width="24"
+              style={{ cursor: 'pointer', transition: 'transform 0.2s' , transform: 'scale(1)' ,padding: '10px'}}
+              onClick={() => navigate(`/chatting/${id}`)}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+
+            >
+              <line
+                fill="none"
+                stroke="currentColor"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                x1="22"
+                x2="9.218"
+                y1="3"
+                y2="10.083"
+              ></line>
+              <polygon
+                fill="none"
+                points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334"
+                stroke="currentColor"
+                strokeLinejoin="round"
+                strokeWidth="2"
+              ></polygon>
+            </svg>
+            </>
             ) : (
               <button onClick={handleFollow}>Follow</button>
             )

@@ -11,6 +11,7 @@ import { useNavigate, useLocation } from 'react-router-dom';  // Import useLocat
 import Lottie from "lottie-react";
 import loadingAnimation from "../assets/loading.json";
 import UseNotif from '../customhook/UseNotif';
+import {motion} from 'framer-motion';
 export default function Home() {
   const [data, setData] = useState([]);
   const [id, setId] = useState("");
@@ -20,6 +21,33 @@ export default function Home() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const location = useLocation(); // Get current location
+  const postscontainer = {
+    hidden: { opacity: 0 },
+    show: { 
+      opacity: 1, 
+      transition: { 
+        staggerChildren: 0.3, // Increase stagger delay for smoother transition
+        duration: 1.5, // Longer duration for a slower effect
+        ease: "easeInOut" // Smooth easing function
+      } 
+    }
+  };
+  
+  const postcont = {
+    hidden: { opacity: 0, y: 50 }, // Add slight vertical translation for a smoother entrance
+    show: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 1.2, // Slow down individual post animation
+        ease: "easeInOut" // Smooth easing function
+      }
+    }
+  };
+  
+
+
+
 
   const pending = () => toast.info("Loading", { position: "top-center", theme: "dark", transition: Bounce });
 
@@ -96,9 +124,9 @@ export default function Home() {
     <UseNotif id={id} user={user} />
     <div className={home.home}>
       <ToastContainer />
-      <div className={home.posts}>
+      <motion.div variants={ postscontainer} initial="hidden" animate="show" className={home.posts}>
         {data.map((post) => (
-          <div className={home.post} key={post._id}>
+          <motion.div  variants={postcont} className={home.post} key={post._id}>
             <div className={home.info}>
               <div className={home.user} onClick={() => navigate(`/DisplayProfile/${post.user._id}`)}>
                 <img src={post.user.profilepic.url} alt="Profile" />
@@ -119,13 +147,49 @@ export default function Home() {
                 <span>{post.likes}</span>
               </div>
               <div className="comments">
+                
+                <a style={{ cursor: "pointer", marginLeft: "5px" }} onClick={() => { setPost(post); setIsClick(true); }}><svg aria-label="Comment" class="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Comment</title><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></a>
                 <span>{post.comments.length} </span>
-                <a style={{ cursor: "pointer", marginLeft: "5px" }} onClick={() => { setPost(post); setIsClick(true); }}>Comments</a>
               </div>
+              <svg aria-label="Save" class="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24" style={{ cursor: 'pointer', transition: 'transform 0.2s' , transform: 'scale(1)' ,padding: '10px'}} onClick={() => handleLikeToggle(post._id, post.likedby.includes(id))}>
+                <polygon fill="none" points="20 21 12 13.44 4 21 4 3 20 3 20 21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polygon></svg>
+              <svg
+              aria-label="Share"
+              className="share-icon"
+              fill="currentColor"
+              height="24"
+              role="img"
+              viewBox="0 0 24 24"
+              width="24"
+              style={{ cursor: 'pointer', transition: 'transform 0.2s' , transform: 'scale(1)' ,padding: '10px'}}
+              onClick={() => navigate(`/chatting/${id}`)}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+
+            >
+              <line
+                fill="none"
+                stroke="currentColor"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                x1="22"
+                x2="9.218"
+                y1="3"
+                y2="10.083"
+              ></line>
+              <polygon
+                fill="none"
+                points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334"
+                stroke="currentColor"
+                strokeLinejoin="round"
+                strokeWidth="2"
+              ></polygon>
+            </svg>
             </div>
-          </div>
+            
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
       {isClick && <Coms user={user} post={post._id} handleCommentAdded={handleCommentAdded} closeViewC={closeViewC} />}
       <Nav />
     </div>
