@@ -83,8 +83,8 @@ export default function Coms({ user, post, handleCommentAdded, closeViewC }) {
                     ))
                 )}
             </div>
-            <ToastContainer />
-
+           <ToastContainer />
+ 
             {boxclicked && 
           <Input 
             handleSubmit={handleComment} 

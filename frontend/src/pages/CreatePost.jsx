@@ -134,7 +134,7 @@ export default function CreatePost() {
         pauseOnHover
         theme="dark"
         transition={Bounce}
-      />
+      /> 
       <Nav />
     </>
   );

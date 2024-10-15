@@ -99,7 +99,7 @@ export default function EditPost({ closeView2, post }) {
         <img src={img} alt="Selected" style={{ width: "100px", height: "100px" }} />
       )}
 
-      <ToastContainer />
+       <ToastContainer />
     </div>
   );
 }

@@ -139,7 +139,7 @@ export default function Register() {
 
             <a href="/login"><h4>Already have an account? Login</h4></a>
 
-            <ToastContainer
+          {<ToastContainer
                 position="top-center"
                 autoClose={5000}
                 hideProgressBar={false}
@@ -160,7 +160,7 @@ export default function Register() {
                         ✖
                     </button>
                 )}
-            />
+            /> }
         </div>
     );
 }

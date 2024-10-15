@@ -19,6 +19,7 @@ import ViewPosts from "./pages/ViewPost";
 import ViewPost from "./pages/ViewPost";
 import Notif from "./pages/Notif";
 import UseNotif from "../src/customhook/UseNotif";
+import GlobalProviders from "./components/GlobalProviders";
 
 
 const router = createBrowserRouter([

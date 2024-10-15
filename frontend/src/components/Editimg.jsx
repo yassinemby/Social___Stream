@@ -96,7 +96,7 @@ export default function Editimg({ closeView4 }) {
         </button>
       </div>
 
-      <ToastContainer
+       <ToastContainer
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -108,7 +108,7 @@ export default function Editimg({ closeView4 }) {
         pauseOnHover
         theme="colored"
         transition={Bounce}
-      />
+      /> 
     </div>
   );
 }

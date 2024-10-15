@@ -109,7 +109,7 @@ export default function Login() {
         <button type="submit">Login</button>
 
         {/* ToastContainer with modified close button size */}
-        <ToastContainer
+         <ToastContainer
           position="top-right"
           autoClose={5000}
           hideProgressBar={false}
@@ -142,7 +142,7 @@ export default function Login() {
               ✖
             </button>
           )}
-        />
+        /> 
       </form>
       <Link to="/register">
         <h4>Don't have an account? Register</h4>

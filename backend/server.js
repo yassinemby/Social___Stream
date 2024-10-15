@@ -707,10 +707,8 @@ app.get("/api/myposts", isAuth, async (req, res) => {
 
 app.get("/api/friends", isAuth, async (req, res) => {
   const u = req.session.user;
- 
   const fr = await User.findOne({ _id: u._id }).populate("friends");
   const result = fr.friends;
-//console.log(result)
   if (!result) {
     return res.status(404).json({ mssg: "User not found" });
   }

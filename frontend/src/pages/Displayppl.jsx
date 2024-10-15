@@ -114,7 +114,7 @@ export default function Displayppl() {
 
   return (
     <div className="profile">
-      <ToastContainer />
+     <ToastContainer />
       {loading ? (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
           <Lottie animationData={loadingAnimation} loop />

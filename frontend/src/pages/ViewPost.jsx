@@ -95,7 +95,7 @@ export default function ViewPosts({idu, closeView }) {
         <>
         <div className='viewposts' onClick={handleClose}>
             <ToastContainer />
-            <div className="posts">
+             <div className="posts">
                 <div className="post">
                     <div className="info">
                         <div className="user">

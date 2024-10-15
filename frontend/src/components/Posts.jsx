@@ -105,7 +105,7 @@ export default function Posts() {
 
   return (
     <div className="postsContainer">
-      <ToastContainer
+       <ToastContainer
         position="top-center"
         autoClose={5000}
         hideProgressBar={false}
@@ -117,7 +117,7 @@ export default function Posts() {
         pauseOnHover
         theme="dark"
         transition={Bounce}
-      />
+      /> 
       <div className="postsGrid">
         {data.map((post) => (
           <div className="singlePost" key={post._id}>
